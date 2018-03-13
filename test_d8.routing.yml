@@ -1,0 +1,37 @@
+
+test_d8.theme:
+  path: '/test-d8/{node}'
+  defaults:
+    _title_callback: 'Drupal\test_d8\Form\TestD8Form::getTitle'
+    _controller: '\Drupal\test_d8\Controller\TestD8FormController::content'
+  parameters:
+    node:
+      type: node
+  requirements:
+    _access: 'TRUE'
+
+# called in js/test_d8.js (update_session())
+test_d8.update_session:
+  path: '/test-d8/update-session'
+  defaults:
+    _title: 'Update session'
+    _controller: '\Drupal\test_d8\Controller\TestD8FormController::updateSession'
+  requirements:
+    _access: 'TRUE'
+
+# called in js/test_d8.js (update_timer())
+test_d8.update_timer:
+  path: '/test-d8/update-timer'
+  defaults:
+    _title: 'Update timer'
+    _controller: '\Drupal\test_d8\Controller\TestD8FormController::updateTimer'
+  requirements:
+    _access: 'TRUE'
+
+user.dashboard.tests:
+  path: '/user/{user}/dashboard/tests'
+  defaults:
+    _title: 'Mes tests'
+    _controller: '\Drupal\test_d8\Controller\DashboardTestsController::getDashboard'
+  requirements:
+    _access: 'TRUE'

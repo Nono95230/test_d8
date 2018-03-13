@@ -1,0 +1,29 @@
+<div class="test_d8-test-result-list">
+  <div class="row">
+    <div class="col col-sm-12">
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Thème</th>
+            <th>Temps passé</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+
+{% for info in data %}
+          <tr>
+            <td>{{ info.date_start|date("d/m/Y") }}</td>
+            <td>{{ info.theme }}</td>
+            <td>{{ info.time_test|date("i \\m\\i\\n s \\s") }}</td>
+            <td>{{ info.score }} / {{ info.num_questions }}</td>
+          </tr>
+
+{% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

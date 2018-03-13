@@ -1,0 +1,14 @@
+# user.activity.testd8.task:
+#   title: 'Mes tests'
+#   route_name: user.tests_per_user
+#   base_route: entity.user.canonical
+#   weight: 20
+
+user.dashboard.tests.task:
+  title: 'Mes tests'
+  route_name: user.dashboard.tests
+  base_route: entity.user.canonical
+  weight: 20
+
+
+

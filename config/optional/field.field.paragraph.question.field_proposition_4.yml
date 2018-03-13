@@ -1,0 +1,21 @@
+uuid: ce183a5e-52ae-41ff-94e6-2c91dcdbe4c6
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_proposition_4
+    - paragraphs.paragraphs_type.question
+  module:
+    - text
+id: paragraph.question.field_proposition_4
+field_name: field_proposition_4
+entity_type: paragraph
+bundle: question
+label: 'Proposition 4'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

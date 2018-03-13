@@ -1,0 +1,28 @@
+uuid: b141415c-4786-42fc-a47a-c69c67eea3d9
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+    - test_d8
+  theme:
+    - bootstrap
+_core:
+  default_config_hash: rvEeSnmb2ZjwNN34pkFysRYurQW2bRs4YsNKkTKqCRk
+id: testd8resultschart
+theme: bootstrap
+region: highlighted
+weight: 0
+provider: null
+plugin: test_d8_chart
+settings:
+  id: test_d8_chart
+  label: 'Test D8 results chart'
+  provider: test_d8
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '/user/*/dashboard/tests'
+    negate: false
+    context_mapping: {  }

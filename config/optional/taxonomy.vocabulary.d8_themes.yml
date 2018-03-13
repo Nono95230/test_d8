@@ -1,0 +1,9 @@
+uuid: 1a3367b0-5176-4e5d-8298-83eedb48796e
+langcode: fr
+status: true
+dependencies: {  }
+name: Thème
+vid: d8_themes
+description: 'Thèmes pour les tests et les certifications'
+hierarchy: 0
+weight: 0

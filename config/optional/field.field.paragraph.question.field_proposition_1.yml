@@ -1,0 +1,21 @@
+uuid: 19c6db5a-b8ca-444c-b897-9195f66b6dd9
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_proposition_1
+    - paragraphs.paragraphs_type.question
+  module:
+    - text
+id: paragraph.question.field_proposition_1
+field_name: field_proposition_1
+entity_type: paragraph
+bundle: question
+label: 'Proposition 1'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

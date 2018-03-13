@@ -1,0 +1,31 @@
+uuid: 97db0fbb-d782-4e09-9bdb-4d9fa094a042
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_question
+    - node.type.test
+    - paragraphs.paragraphs_type.question
+  module:
+    - entity_reference_revisions
+id: node.test.field_question
+field_name: field_question
+entity_type: node
+bundle: test
+label: Question
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      question: question
+    target_bundles_drag_drop:
+      question:
+        enabled: true
+        weight: 2
+field_type: entity_reference_revisions

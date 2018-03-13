@@ -1,0 +1,21 @@
+uuid: 7bea2844-010f-4a59-9a09-b8cff85bcf84
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_reponse
+    - paragraphs.paragraphs_type.question
+  module:
+    - options
+id: paragraph.question.field_reponse
+field_name: field_reponse
+entity_type: paragraph
+bundle: question
+label: Réponse
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_integer

@@ -1,0 +1,21 @@
+uuid: 9b09b84b-3819-4289-9ed9-99b4676c750b
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_proposition_3
+    - paragraphs.paragraphs_type.question
+  module:
+    - text
+id: paragraph.question.field_proposition_3
+field_name: field_proposition_3
+entity_type: paragraph
+bundle: question
+label: 'Proposition 3'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

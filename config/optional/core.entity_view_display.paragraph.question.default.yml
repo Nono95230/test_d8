@@ -1,0 +1,56 @@
+uuid: a7b73339-abee-4610-911b-fa39e3e75d73
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.question.field_proposition_1
+    - field.field.paragraph.question.field_proposition_2
+    - field.field.paragraph.question.field_proposition_3
+    - field.field.paragraph.question.field_proposition_4
+    - field.field.paragraph.question.field_question
+    - field.field.paragraph.question.field_reponse
+    - paragraphs.paragraphs_type.question
+  module:
+    - text
+id: paragraph.question.default
+targetEntityType: paragraph
+bundle: question
+mode: default
+content:
+  field_proposition_1:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_proposition_2:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_proposition_3:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_proposition_4:
+    weight: 4
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_question:
+    weight: 0
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  field_reponse: true

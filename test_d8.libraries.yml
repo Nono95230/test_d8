@@ -1,0 +1,51 @@
+test-drupal-theme:
+  version: VERSION
+  css:
+    theme:
+      css/test_d8_theme.css: {}
+  js:
+    js/test_d8_theme.js: {}
+  dependencies:
+    - core/jquery
+
+test-drupal-test-per-user:
+  version: VERSION
+  css:
+    theme:
+      css/test_d8_test-per-user.css: {}
+  js:
+    https://www.gstatic.com/charts/loader.js: { type: external, minified: true }
+    js/test_d8_test-per-user.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+
+test-drupal:
+  version: VERSION
+  css:
+    theme:
+      css/test_d8.css: {}
+      css/test_d8_countdown_timer.css: {}
+  js:
+    js/test_d8_countdown_timer.js: {}
+    js/test_d8.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/jquery.once
+
+
+#countdown.timer:
+#  version: VERSION
+#  css:
+#    component:
+#      css/test_d8_countdown_timer.css: {}
+#  js:
+#    js/test_d8_countdown_timer.js: {}
+#    js/test_d8_countdown_timer_init.js: {}
+#  dependencies:
+#    - core/jquery
+#    - core/drupal
+#    - core/drupalSettings
+#    - core/jquery.once

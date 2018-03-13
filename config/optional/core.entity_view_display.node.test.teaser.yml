@@ -1,0 +1,23 @@
+uuid: 4a2dfdcc-fdb0-4fba-938d-2272db45dcae
+langcode: fr
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.test.field_question
+    - field.field.node.test.field_theme
+    - node.type.test
+  module:
+    - user
+id: node.test.teaser
+targetEntityType: node
+bundle: test
+mode: teaser
+content:
+  links:
+    weight: 100
+    region: content
+hidden:
+  field_question: true
+  field_theme: true
+  langcode: true

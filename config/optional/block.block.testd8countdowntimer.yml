@@ -1,0 +1,28 @@
+uuid: 7d66cc03-1ca3-4d08-896b-b57aea1477e9
+langcode: fr
+status: true
+dependencies:
+  module:
+    - system
+    - test_d8
+  theme:
+    - bootstrap
+_core:
+  default_config_hash: zgkCylON1A74cR7iERPI2H6rCf7O7UTNPL5r1PWnxkU
+id: testd8countdowntimer
+theme: bootstrap
+region: highlighted
+weight: -6
+provider: null
+plugin: test_d8_countdown_timer
+settings:
+  id: test_d8_countdown_timer
+  label: 'Test D8 Countdown timer'
+  provider: test_d8
+  label_display: '0'
+visibility:
+  request_path:
+    id: request_path
+    pages: '*/test-d8/*'
+    negate: false
+    context_mapping: {  }

@@ -1,0 +1,67 @@
+<?php
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function test_d8_help($route_name, RouteMatchInterface $route_match){
+  switch ($route_name) {
+    case 'help.page.test_d8':
+      $output = '';
+      $output .= '<h3>'.t('About').'</h3>';
+      $output .= '<p>'.t('Please send help').'</p>';
+
+      return $output;
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function test_d8_theme($existing, $type, $theme, $path){
+  return [
+    'theme_list' => [
+      'template' => 'theme-list',
+      'variables' => ['data' => NULL]
+    ],
+    'test_per_user' => [
+      'template' => 'test-per-user',
+      'variables' => ['data' => NULL]
+    ],
+    'test_per_user_chart' => [
+      'template' => 'test-per-user-chart',
+      'variables' => ['data' => NULL]
+    ],
+    'countdowntimer' => [
+      'template' => 'countdowntimer',
+      'variables' => ['data' => NULL]
+    ],
+  ];
+}
+
+function test_d8_page_attachments(array &$page){
+  $routeName = \Drupal::routeMatch()->getRouteName();
+  $current_path = \Drupal::service('path.current')->getPath();
+
+  if ($routeName == 'test_d8.theme') {
+    $page['#attached']['library'][] = 'test_d8/test-drupal';
+  }
+  elseif ($current_path == '/tests-drupal8') {
+    $page['#attached']['library'][] = 'test_d8/test-drupal-theme';
+  }
+}
+
+function test_d8_views_pre_execute($view){
+  $routeName = \Drupal::routeMatch()->getRouteName();
+
+  // destroy session on tests landing page
+  if ($routeName == 'view.test_drupal8.page_1'){
+    $session = \Drupal::service('user.private_tempstore')->get('test_d8');
+    $session->delete('test_d8_session');
+    $session->delete('session_questions');
+    $session->delete('questions_list');
+    $session->delete('date_start');
+    $session->delete('timer');
+  }
+}

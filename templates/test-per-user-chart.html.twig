@@ -1,0 +1,19 @@
+
+<div id="test_d8-charts">
+  <div id="tabs">
+    <ul>
+
+{% for theme in themes %}
+      <li><a href="#tabs-{{ theme.id }}">{{ theme.name }}</a></li>
+
+{% endfor %}
+    </ul>
+
+{% for theme in themes %}
+    <div id="tabs-{{ theme.id }}">
+      <div id="chart-{{ theme.id }}"></div>
+    </div>
+
+{% endfor %}
+  </div>
+</div>

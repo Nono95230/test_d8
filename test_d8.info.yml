@@ -1,0 +1,10 @@
+name: Test D8
+description: 'Drupal certification training'
+package: Custom
+dependencies:
+  - paragraphs (>=8.x-1.2)
+type: module
+version: VERSION
+core: '8.x'
+
+
