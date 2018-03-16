@@ -8,12 +8,10 @@ dependencies:
   module:
     - node
     - user
-_core:
-  default_config_hash: HxtL6_B5r0Tskt14gJUqtGVpkfqsSj7Vm2aluzxm7_A
 id: test_drupal8
-label: 'Liste des tests Drupal 8'
+label: test_drupal8
 module: views
-description: 'Page listant les différents test pour Drupal 8'
+description: ''
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -56,11 +54,16 @@ display:
           items_per_page: 10
           offset: 0
       style:
-        type: default
+        type: grid
         options:
           grouping: {  }
-          row_class: 'col col-sm-3'
-          default_row_class: true
+          columns: 4
+          automatic_width: true
+          alignment: horizontal
+          col_class_default: false
+          col_class_custom: 'col col-sm-3'
+          row_class_default: false
+          row_class_custom: row
       row:
         type: fields
       fields:

@@ -23,18 +23,14 @@ class TestsPerUserController extends ControllerBase {
   }
 
   public function content() {
-    //return array('#markup' => 'Drupal is too easy !!!');
-    //kint($this->getTests());exit;
-    $render = [];
-    $render[] = [
-      '#theme' => 'test_per_user',
-      '#data' => $this->getTests(),
-      '#type' => 'remote',
+    return [
+      [
+        '#theme' => 'test_per_user',
+        '#data' => $this->getTests(),
+        '#type' => 'remote',
+      ],
+      ['#type' => 'pager']
     ];
-    $render[] = ['#type' => 'pager'];
-
-    return $render;
-
   }
 
   public function getThemes() {
@@ -48,25 +44,6 @@ class TestsPerUserController extends ControllerBase {
     }
     return $themes;
   }
-
-  /*public function pgcd($num1, $num2){
-    while ($num1 > 1){
-      $modulo = $num1 % $num2;
-      if ($modulo == 0) break;
-      $num1 = $num2;
-      $num2 = $modulo;
-    }
-    return $num2;
-  }*/
-
-  /*public function getScoresByTheme($id_theme){
-      $query = \Drupal::database()->select('test_d8_test_result', 'd8');
-    $query->fields('d8', ['score'])
-      ->condition('uid', $this->getCurrentUserID())
-      ->condition('nid', $id_theme)
-      ->orderBy('date_end', 'DESC');
-    return $query->execute()->fetchAll();
-  }*/
 
   public function getTests() {
     $config = \Drupal::config('test_d8.settings');

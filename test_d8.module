@@ -21,14 +21,6 @@ function test_d8_help($route_name, RouteMatchInterface $route_match){
  */
 function test_d8_theme($existing, $type, $theme, $path){
   return [
-    'theme_list' => [
-      'template' => 'theme-list',
-      'variables' => ['data' => NULL]
-    ],
-    'test_per_user' => [
-      'template' => 'test-per-user',
-      'variables' => ['data' => NULL]
-    ],
     'test_per_user_chart' => [
       'template' => 'test-per-user-chart',
       'variables' => ['data' => NULL]
@@ -50,13 +42,16 @@ function test_d8_page_attachments(array &$page){
   elseif ($current_path == '/tests-drupal8') {
     $page['#attached']['library'][] = 'test_d8/test-drupal-theme';
   }
+  elseif ($routeName == 'user.dashboard.tests') {
+    $page['#attached']['library'][] = 'test_d8/test-drupal-test-per-user';
+  }
 }
 
 function test_d8_views_pre_execute($view){
-  $routeName = \Drupal::routeMatch()->getRouteName();
+  $current_path = \Drupal::service('path.current')->getPath();
 
   // destroy session on tests landing page
-  if ($routeName == 'view.test_drupal8.page_1'){
+  if ($current_path == '/tests-drupal8'){
     $session = \Drupal::service('user.private_tempstore')->get('test_d8');
     $session->delete('test_d8_session');
     $session->delete('session_questions');
@@ -64,4 +59,14 @@ function test_d8_views_pre_execute($view){
     $session->delete('date_start');
     $session->delete('timer');
   }
+}
+
+// send settings to JS
+function test_d8_preprocess_html(&$variables) {
+  $settings = \Drupal::config('test_d8.settings');
+  $time_to_complete_test = $settings->get('time_to_complete_test');
+  $number_of_questions = $settings->get('number_of_questions');
+
+  $variables['#attached']['drupalSettings']['TestD8']['time_to_complete_test'] = $time_to_complete_test;
+  $variables['#attached']['drupalSettings']['TestD8']['number_of_questions'] = $number_of_questions;
 }

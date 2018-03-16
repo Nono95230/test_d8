@@ -56,20 +56,16 @@ function test_d8_schema(){
 			],
 		],
 		/*
-		'foreign keys' 	=> array(
-			'node_field_data' => array(
+		'foreign keys' 	=> [
+			'node_field_data' => [
 				'table' => 'node_field_data',
-				'columns' => array(
-					'nid' => 'nid',
-				),
-			),
-			'users_field_data' => array(
+				'columns' => ['nid' => 'nid'],
+			],
+			'users_field_data' => [
 				'table' => 'users_field_data',
-				'columns' => array(
-					'uid' => 'uid',
-				),
-			),
-		),
+				'columns' => ['uid' => 'uid'],
+			],
+		],
 		*/
 		'primary key' => ['trid'],
 	];

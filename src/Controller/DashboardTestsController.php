@@ -35,22 +35,12 @@ class DashboardTestsController extends ControllerBase {
 		);
 	}
 
-	public function getDashboard() {
+	public function getDashboard(){
 
-	  	$allTestsResult = $this->getData();
-	  	//$link = Url::fromRoute('test_d8.test_d8')->toString();
-	    //$emptyMessage = $this->t("Vous n'avez passé aucun test jusqu'à présent ! <a href='$link'>Passer un test</a>");
-	    $emptyMessage = $this->t("Vous n'avez passé aucun test jusqu'à présent !");
-	    $message = $this->t("Vous avez effectué %number test@plural !", array(
-	        "%number" => count($allTestsResult),
-	        "@plural" => $this->frenchPlural(count($allTestsResult))
-	      )
-	    );
+	  $allTestsResult = $this->getData();
 
-		$header = array( $this->t('Thème'), $this->t('Date'), $this->t('Temps passé'), $this->t('Score') );
 		$options = array();
-
-	 	foreach($allTestsResult as $testResult){
+	 	foreach ($allTestsResult as $testResult){
 			$options[] = array(
         $this->getNodeTitle($testResult->nid),
 				format_date($testResult->date_end, '', 'l j F Y - H:i'),
@@ -59,45 +49,43 @@ class DashboardTestsController extends ControllerBase {
 			);
 		}
 
-
 		$output["table"] = array(
 			'#theme' => 'table',
-			'#header' => $header,
+			'#header' => [$this->t('Thème'), $this->t('Date'), $this->t('Temps passé'), $this->t('Score')],
 			'#cache' => ['disabled' => TRUE],
 			'#rows' => $options,
-			'#empty' => $emptyMessage
+			'#empty' => $this->t('Aucun test pour le moment. <a href="@url">Passer un test</a>', [
+				'@url' => Url::fromRoute('view.test_drupal8.page_1')->toString()
+			])
 		);
 
-	    if ( !empty($options) ) {
-	      $output["table"]['#caption'] = $message;
-	    }
+	  if (!empty($options)){
+	      $output["table"]['#caption'] = $this->t("Vous avez effectué @number test@plural.", array(
+	        "@number" => count($allTestsResult),
+	        "@plural" => $this->frenchPlural(count($allTestsResult))
+	      )
+	    );
+	  }
 
 		return array($output);
-
 	}
 
-
-	public function getCurrentUserID() {
+	public function getCurrentUserID(){
 		return \Drupal::currentUser()->id();
 	}
-
 
 	public function frenchPlural($int){
 		return ($int > 1) ? 's' : '';
 	}
 
-
-
-	public function getData() {
-
-		$query = $this->database->select('test_d8_test_result','tdtr')
-				->fields('tdtr', ['trid', 'nid', 'date_start', 'date_end','score'])
-				->condition( 'uid',  $this->getCurrentUserID() )
-				->orderBy('date_end', 'DESC')
-				->execute();
-
-		return $query->fetchAll();
-
+	// retourne tous les tests de l'utilisateur courant
+	public function getData(){
+		return $this->database->select('test_d8_test_result','tdtr')
+			->fields('tdtr', ['trid', 'nid', 'date_start', 'date_end','score'])
+			->condition('uid',  $this->getCurrentUserID())
+			->orderBy('date_end', 'DESC')
+			->execute()
+			->fetchAll();
 	}
 
   public function getNodeTitle($nid){

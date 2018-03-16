@@ -49,20 +49,21 @@ class TestD8Form extends FormBase {
         // get all questions
         $field_question = $node->get('field_question')->getValue();
         $ids = [];
-        foreach ($field_question as $d)
+        foreach ($field_question as $d){
             $ids[] = $d['target_id'];
+        }
         $paragraphs = Paragraph::loadMultiple($ids);
 
         $tmp_list = [];
         foreach ($paragraphs as $id => $para){
             $tmp_list[] = [
                 'id' => $id,
-                'question' => $para->get('field_question')->getValue()[0]['value'],
-                'p1' => $para->get('field_proposition_1')->getValue()[0]['value'],
-                'p2' => $para->get('field_proposition_2')->getValue()[0]['value'],
-                'p3' => $para->get('field_proposition_3')->getValue()[0]['value'],
-                'p4' => $para->get('field_proposition_4')->getValue()[0]['value'],
-                'reponse' => $para->get('field_reponse')->getValue()[0]['value'],
+                'question' => $this->paragraphGetValue($para, 'field_question'),
+                'p1' => $this->paragraphGetValue($para, 'field_proposition_1'),
+                'p2' => $this->paragraphGetValue($para, 'field_proposition_2'),
+                'p3' => $this->paragraphGetValue($para, 'field_proposition_3'),
+                'p4' => $this->paragraphGetValue($para, 'field_proposition_4'),
+                'reponse' => $this->paragraphGetValue($para, 'field_reponse')
             ];
         }
 
@@ -265,9 +266,10 @@ class TestD8Form extends FormBase {
         // insert in DB
         $time = \Drupal::time()->getCurrentTime();
         $uid = \Drupal::currentUser()->id();
+        $nid = \Drupal::routeMatch()->getParameter('node')->id();
         $result = \Drupal::database()->insert('test_d8_test_result')->fields([
             'uid' => $uid,
-            'nid' => \Drupal::routeMatch()->getParameter('node')->id(),
+            'nid' => $nid,
             'date_start' => $date_start,
             'date_end' => $time,
             'questions_status' => serialize($session_questions), // q/a to recall in case of interrupted test
@@ -283,16 +285,16 @@ class TestD8Form extends FormBase {
         $session->delete('timer');
 
         drupal_set_message('Le test est terminé. Votre score est de '.$score.'/'.$total, 'status');
-        $form_state->setRedirect('user.dashboard.tests', array('user' => $uid));
+        $form_state->setRedirect('user.dashboard.tests', ['user' => $uid], ['query' => ['tab' => $nid]]);
 
         // regarder ça
         //$form_state->setTemporaryValue('result', $resultat);
         //$form_state->setRebuild();
     }
 
-    /*public function answerQuestion(){
-
-    }*/
+    public function paragraphGetValue($object, $fieldname){
+        return  $object->get($fieldname)->getValue()[0]['value'];
+    }
 
 
 }

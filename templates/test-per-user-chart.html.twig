@@ -2,18 +2,16 @@
 <div id="test_d8-charts">
   <div id="tabs">
     <ul>
-
-{% for theme in themes %}
-      <li><a href="#tabs-{{ theme.id }}">{{ theme.name }}</a></li>
-
+{% for id, arr in data.tabs %}
+      <li><a href="#tabs-{{ id }}">{{ arr['name'] }} <small>({{ arr['num'] }})</small></a></li>
 {% endfor %}
     </ul>
 
-{% for theme in themes %}
-    <div id="tabs-{{ theme.id }}">
-      <div id="chart-{{ theme.id }}"></div>
+{% for id, arr in data.tabs %}
+    <div id="tabs-{{ id }}">
+      <div id="chart-{{ id }}"></div>
     </div>
-
 {% endfor %}
   </div>
 </div>
+
