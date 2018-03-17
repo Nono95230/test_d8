@@ -1,20 +1,20 @@
-uuid: f5275fd5-460a-4bf9-a4f2-ff8b71a17fff
+uuid: ba693d2c-4b84-4bcc-ae30-91144e17ccc2
 langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.paragraph.question.field_proposition_1
-    - field.field.paragraph.question.field_proposition_2
-    - field.field.paragraph.question.field_proposition_3
-    - field.field.paragraph.question.field_proposition_4
-    - field.field.paragraph.question.field_question
-    - field.field.paragraph.question.field_reponse
-    - paragraphs.paragraphs_type.question
+    - field.field.paragraph.paragraphs_type_questions.field_proposition_1
+    - field.field.paragraph.paragraphs_type_questions.field_proposition_2
+    - field.field.paragraph.paragraphs_type_questions.field_proposition_3
+    - field.field.paragraph.paragraphs_type_questions.field_proposition_4
+    - field.field.paragraph.paragraphs_type_questions.field_question
+    - field.field.paragraph.paragraphs_type_questions.field_reponse
+    - paragraphs.paragraphs_type.paragraphs_type_questions
   module:
     - text
-id: paragraph.question.default
+id: paragraph.paragraphs_type_questions.default
 targetEntityType: paragraph
-bundle: question
+bundle: paragraphs_type_questions
 mode: default
 content:
   field_proposition_1:

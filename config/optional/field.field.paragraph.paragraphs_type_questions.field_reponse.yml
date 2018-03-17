@@ -1,18 +1,18 @@
-uuid: 7bea2844-010f-4a59-9a09-b8cff85bcf84
+uuid: 17369229-9259-451e-876c-3732ece812fd
 langcode: fr
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_reponse
-    - paragraphs.paragraphs_type.question
+    - paragraphs.paragraphs_type.paragraphs_type_questions
   module:
     - options
-id: paragraph.question.field_reponse
+id: paragraph.paragraphs_type_questions.field_reponse
 field_name: field_reponse
 entity_type: paragraph
-bundle: question
+bundle: paragraphs_type_questions
 label: Réponse
-description: ''
+description: 'Indiquer la bonne réponse'
 required: true
 translatable: false
 default_value: {  }

@@ -18,6 +18,7 @@ test-drupal-test-per-user:
     js/test_d8_test-per-user.js: {}
   dependencies:
     - core/jquery
+    - core/jquery.ui.tabs
     - core/drupalSettings
 
 test-drupal:
@@ -34,18 +35,3 @@ test-drupal:
     - core/drupal
     - core/drupalSettings
     - core/jquery.once
-
-
-#countdown.timer:
-#  version: VERSION
-#  css:
-#    component:
-#      css/test_d8_countdown_timer.css: {}
-#  js:
-#    js/test_d8_countdown_timer.js: {}
-#    js/test_d8_countdown_timer_init.js: {}
-#  dependencies:
-#    - core/jquery
-#    - core/drupal
-#    - core/drupalSettings
-#    - core/jquery.once

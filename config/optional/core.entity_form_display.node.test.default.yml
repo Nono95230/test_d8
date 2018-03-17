@@ -1,9 +1,8 @@
-uuid: 6857f40a-a42c-4158-88bc-f07b5d5696cf
 langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.test.field_question
+    - field.field.node.test.field_questions
     - field.field.node.test.field_theme
     - node.type.test
   module:
@@ -20,7 +19,7 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_question:
+  field_questions:
     type: entity_reference_paragraphs
     weight: 122
     settings:

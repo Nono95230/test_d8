@@ -1,18 +1,18 @@
-uuid: 9b09b84b-3819-4289-9ed9-99b4676c750b
+uuid: 12d3fe30-73f0-4c3d-8ba1-c73c0416647f
 langcode: fr
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_proposition_3
-    - paragraphs.paragraphs_type.question
+    - paragraphs.paragraphs_type.paragraphs_type_questions
   module:
     - text
-id: paragraph.question.field_proposition_3
+id: paragraph.paragraphs_type_questions.field_proposition_3
 field_name: field_proposition_3
 entity_type: paragraph
-bundle: question
+bundle: paragraphs_type_questions
 label: 'Proposition 3'
-description: ''
+description: 'Saisir la troisième proposition qui servira à répondre à la question ou non'
 required: true
 translatable: false
 default_value: {  }

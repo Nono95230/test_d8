@@ -1,18 +1,18 @@
-uuid: 19c6db5a-b8ca-444c-b897-9195f66b6dd9
+uuid: 10070dc2-8549-4d13-ba35-dd8a5404b94f
 langcode: fr
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_proposition_1
-    - paragraphs.paragraphs_type.question
+    - paragraphs.paragraphs_type.paragraphs_type_questions
   module:
     - text
-id: paragraph.question.field_proposition_1
+id: paragraph.paragraphs_type_questions.field_proposition_1
 field_name: field_proposition_1
 entity_type: paragraph
-bundle: question
+bundle: paragraphs_type_questions
 label: 'Proposition 1'
-description: ''
+description: 'Saisir la première proposition qui servira à répondre à la question ou non'
 required: true
 translatable: false
 default_value: {  }

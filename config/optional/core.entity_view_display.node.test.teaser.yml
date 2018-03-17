@@ -1,23 +1,36 @@
-uuid: 4a2dfdcc-fdb0-4fba-938d-2272db45dcae
 langcode: fr
 status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.test.field_question
+    - field.field.node.test.field_questions
     - field.field.node.test.field_theme
     - node.type.test
   module:
+    - entity_reference_revisions
     - user
 id: node.test.teaser
 targetEntityType: node
 bundle: test
 mode: teaser
 content:
-  links:
-    weight: 100
+  field_questions:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    region: content
+    label: hidden
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+  field_theme:
+    weight: 0
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
     region: content
 hidden:
-  field_question: true
-  field_theme: true
   langcode: true
+  links: true

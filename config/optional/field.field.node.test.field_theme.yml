@@ -1,4 +1,3 @@
-uuid: 526caa36-05a2-4432-91bd-e9923e8bf9f9
 langcode: fr
 status: true
 dependencies:
@@ -25,5 +24,5 @@ settings:
       field: name
       direction: asc
     auto_create: false
-    auto_create_bundle: theme
+    auto_create_bundle: ''
 field_type: entity_reference

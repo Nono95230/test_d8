@@ -37,25 +37,40 @@ class DashboardTestsController extends ControllerBase {
 
 	public function getDashboard() {
 
-	  	$allTestsResult = $this->getData();
+	  	$resultsTests = $this->getData();
+	  	$countATR = count($resultsTests);// count resultsTests
 	  	//$link = Url::fromRoute('test_d8.test_d8')->toString();
 	    //$emptyMessage = $this->t("Vous n'avez passé aucun test jusqu'à présent ! <a href='$link'>Passer un test</a>");
-	    $emptyMessage = $this->t("Vous n'avez passé aucun test jusqu'à présent !");
-	    $message = $this->t("Vous avez effectué %number test@plural !", array(
-	        "%number" => count($allTestsResult),
-	        "@plural" => $this->frenchPlural(count($allTestsResult))
-	      )
+	    $emptyMessage = $this->t(
+	    	"Vous n'avez passé aucun test jusqu'à présent... \nC'est l'occasion de <a href='@link'>passer votre premier test</a> !",
+	    	array(
+	    		'@link'   => Url::fromRoute('view.test_drupal8.page_1')->toString()
+	    	)
+	    );
+	    $message = $this->t(
+	    	"Vous avez effectué %number test@plural ! \nPasser en un de plus <a href='@link'>ici</a>", 
+	    	array(
+		        "%number" => count($resultsTests),
+		        "@plural" => $this->frenchPlural(count($resultsTests)),
+	    		'@link'   => Url::fromRoute('view.test_drupal8.page_1')->toString()
+
+		    )
 	    );
 
-		$header = array( $this->t('Thème'), $this->t('Date'), $this->t('Temps passé'), $this->t('Score') );
 		$options = array();
+		$header = array( 
+			$this->t('Thème'), 
+			$this->t('Date'), 
+			$this->t('Temps passé'), 
+			$this->t('Résultat') 
+		);
 
-	 	foreach($allTestsResult as $testResult){
+	 	foreach($resultsTests as $currentTest){
 			$options[] = array(
-        $this->getNodeTitle($testResult->nid),
-				format_date($testResult->date_end, '', 'l j F Y - H:i'),
-        format_date($testResult->date_end - $testResult->date_start, '', 'i:s'),
-        $testResult->score
+		        $this->getNodeTitle($currentTest->nid),
+				$this->getFormatedDate($currentTest->date_end),
+		        $this->getPassedTime($currentTest->date_end, $currentTest->date_start),
+		        $currentTest->score
 			);
 		}
 
@@ -100,8 +115,30 @@ class DashboardTestsController extends ControllerBase {
 
 	}
 
-  public function getNodeTitle($nid){
-    return $this->entityTMNode->load($nid)->getTitle();
-  }
+	public function getNodeTitle($nid){
+		return $this->entityTMNode->load($nid)->getTitle();
+	}
+
+	public function getFormatedDate($date){
+		$dateDay = format_date($date, '', 'l j F Y');
+		$dateHour = format_date($date, '', 'H:i');
+
+		$formatedDate = 'Le '.$dateDay.' à '.$dateHour;
+
+		return $formatedDate;
+	}
+
+	public function getPassedTime($dateEnd, $dateStart){
+
+		$operation = $dateEnd - $dateStart;
+
+		$passedTime = format_date(
+			$operation, 
+			'', 
+			'i:s'
+		);
+
+		return $passedTime;
+	}
 
 }

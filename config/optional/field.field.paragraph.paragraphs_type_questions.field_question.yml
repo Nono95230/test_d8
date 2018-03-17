@@ -1,18 +1,18 @@
-uuid: b364c2cd-67e5-4f61-a3ca-f3f4478f4c6a
+uuid: 5387259b-d4a5-4abc-94cf-0b14ed76b96f
 langcode: fr
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_question
-    - paragraphs.paragraphs_type.question
+    - paragraphs.paragraphs_type.paragraphs_type_questions
   module:
     - text
-id: paragraph.question.field_question
+id: paragraph.paragraphs_type_questions.field_question
 field_name: field_question
 entity_type: paragraph
-bundle: question
+bundle: paragraphs_type_questions
 label: Question
-description: ''
+description: 'Saisir une question'
 required: true
 translatable: false
 default_value: {  }

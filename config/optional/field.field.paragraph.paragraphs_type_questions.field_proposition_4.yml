@@ -1,18 +1,18 @@
-uuid: ce183a5e-52ae-41ff-94e6-2c91dcdbe4c6
+uuid: df509a43-caae-4806-89b8-6b6069c02451
 langcode: fr
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_proposition_4
-    - paragraphs.paragraphs_type.question
+    - paragraphs.paragraphs_type.paragraphs_type_questions
   module:
     - text
-id: paragraph.question.field_proposition_4
+id: paragraph.paragraphs_type_questions.field_proposition_4
 field_name: field_proposition_4
 entity_type: paragraph
-bundle: question
+bundle: paragraphs_type_questions
 label: 'Proposition 4'
-description: ''
+description: 'Saisir la quatrième proposition qui servira à répondre à la question ou non'
 required: true
 translatable: false
 default_value: {  }
