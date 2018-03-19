@@ -6,7 +6,6 @@ use Drupal\Core\Controller\ControllerBase;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-
 use Drupal\Core\Database\Connection;
 use Drupal\Component\Datetime\Time;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -39,8 +38,6 @@ class DashboardTestsController extends ControllerBase {
 
 	  	$resultsTests = $this->getData();
 	  	$countATR = count($resultsTests);// count resultsTests
-	  	//$link = Url::fromRoute('test_d8.test_d8')->toString();
-	    //$emptyMessage = $this->t("Vous n'avez passé aucun test jusqu'à présent ! <a href='$link'>Passer un test</a>");
 	    $emptyMessage = $this->t(
 	    	"Vous n'avez passé aucun test jusqu'à présent... \nC'est l'occasion de <a href='@link'>passer votre premier test</a> !",
 	    	array(
@@ -48,7 +45,7 @@ class DashboardTestsController extends ControllerBase {
 	    	)
 	    );
 	    $message = $this->t(
-	    	"Vous avez effectué %number test@plural ! \nPasser en un de plus <a href='@link'>ici</a>", 
+	    	"Vous avez effectué %number test@plural ! \nPasser en un de plus <a href='@link'>ici</a>",
 	    	array(
 		        "%number" => count($resultsTests),
 		        "@plural" => $this->frenchPlural(count($resultsTests)),
@@ -58,11 +55,11 @@ class DashboardTestsController extends ControllerBase {
 	    );
 
 		$options = array();
-		$header = array( 
-			$this->t('Thème'), 
-			$this->t('Date'), 
-			$this->t('Temps passé'), 
-			$this->t('Résultat') 
+		$header = array(
+			$this->t('Thème'),
+			$this->t('Date'),
+			$this->t('Temps passé'),
+			$this->t('Résultat')
 		);
 
 	 	foreach($resultsTests as $currentTest){
@@ -133,8 +130,8 @@ class DashboardTestsController extends ControllerBase {
 		$operation = $dateEnd - $dateStart;
 
 		$passedTime = format_date(
-			$operation, 
-			'', 
+			$operation,
+			'',
 			'i:s'
 		);
 

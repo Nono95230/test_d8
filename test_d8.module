@@ -59,7 +59,7 @@ function test_d8_views_pre_execute($view){
     $session->delete('session_questions');
     $session->delete('questions_list');
     $session->delete('date_start');
-    $session->delete('timer');
+    $session->delete('qcm_timer');
   }
 
 }

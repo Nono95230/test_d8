@@ -31,7 +31,7 @@ class TimerBlock extends BlockBase {
     } else {
       //$session_questions = $session->get('session_questions');
       $date_start = $session->get('date_start');
-      $timer = $session->get('timer');
+      $timer = $session->get('qcm_timer');
 
       // time left
       $timeLeft = $config->get('time_to_complete_test') - ($timer - $date_start);

@@ -18,11 +18,6 @@ use Drupal\paragraphs\Entity\Paragraph;
 
 class TestD8Form extends FormBase {
 
-
-    /*public function __construct(){
-
-    }*/
-
     /**
      *  {@inheritdoc}
      */
@@ -75,14 +70,13 @@ class TestD8Form extends FormBase {
         );
 
         $session = \Drupal::service('user.private_tempstore')->get('test_d8');
-        //$time = \Drupal::time()->getCurrentTime();
-        $time = time();
+        $time = \Drupal::time()->getCurrentTime();
 
         if ($session->get('test_d8_session') && ($session->get('test_d8_session') == $node->id())){
             $session_questions = $session->get('session_questions');
             $questions_list = $session->get('questions_list');
             $date_start = $session->get('date_start');
-            $timer = $session->get('timer');
+            $timer = $session->get('qcm_timer');
         } else {
             // storing q/a
             $session_questions = [];
@@ -99,7 +93,7 @@ class TestD8Form extends FormBase {
             $session->set('session_questions', $session_questions);
             $session->set('questions_list', $questions_list);
             $session->set('date_start', $time);
-            $session->set('timer', $time);
+            $session->set('qcm_timer', $time);
         }
 
         // nav mini-cercles
@@ -131,11 +125,9 @@ class TestD8Form extends FormBase {
             ++$i;
 
             $form['propositions'.$data['id']] = [
-            //$form['proposition'.$idQuestion['id']] = [
                 '#type'     => 'radios',
                 '#title'    => $this->t('Question @num', array('@num' => $i)),
                 '#markup'   => '<div class="test_d8-question-text">'.$data['question'].'</div>',
-                //'#required' => TRUE, // form will submit after time's up, even if an answer is missing
                 '#options'  => [
                     'p1' => $data['p1'],
                     'p2' => $data['p2'],
@@ -144,11 +136,6 @@ class TestD8Form extends FormBase {
                 ],
                 '#prefix' => '<div class="test_d8-question'. ($i > 1 ? ' test_d8-hidden' : '') .'" id="test_d8-question'.$data['id'].'">',
                 '#suffix' =>'</div>',
-                /*'#ajax' => [
-                    'callback' => 'Drupal\test_d8\Form\TestD8Form::changeQuestion',
-                    'event' => 'change',
-                    'wrapper' => 'propositions'.$data['id'],
-                ],*/
             ];
         }
 
@@ -175,54 +162,15 @@ class TestD8Form extends FormBase {
             '#attributes' => ['title' => $this->t('Next question')],
             '#id' => 'test_d8-question-next',
             '#suffix' => '</div>',
-            /*'#ajax' => [
-                'callback' => 'Drupal\test_d8\Form\TestD8Form::changeQuestion',
-                'event' => 'click',
-                'wrapper' => 'test_d8-question9',
-            ],*/
         ];
         $form['validation'] = [
             '#type' => 'submit',
-            //'#attributes' => array("disabled" => true),
             '#value' => t('Validate test'),
             '#id' => 'test_d8-submit',
         ];
 
-        //$resultat = $form_state->getTemporaryValue('result');
         return $form;
     }
-
-      /*
-    public function changeQuestion(array &$form, FormStateInterface $form_state){
-
-      kint($form_state->getValues());
-      return $form_state->getValues();
-      $elem = [
-        '#type' => 'textfield',
-        '#size' => '60',
-        '#disabled' => TRUE,
-        '#value' => 'Hello world!',
-        '#attributes' => [
-          'id' => ['edit-output'],
-        ],
-      ];
-      return $elem;
-    }
-      */
-
-    /*public function changeQuestion(array &$form, FormStateInterface $form_state) : array {
-      $elem = [
-        '#type' => 'textfield',
-        '#size' => '60',
-        '#disabled' => TRUE,
-        '#value' => 'Hello, ' . $form_state->getValue('input') . '!',
-        '#attributes' => [
-          'id' => ['edit-output'],
-        ],
-      ];
-
-      return ['#markup' => \Drupal::service('renderer')->render($elem)];
-    }*/
 
     /**
      *  {@inheritdoc}
@@ -233,13 +181,14 @@ class TestD8Form extends FormBase {
      *  {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state){
-        //kint('pipo');die();
+
         $form_data = $form_state->getValues();
 
         $session = \Drupal::service('user.private_tempstore')->get('test_d8');
+
         $session_questions = $session->get('session_questions');
         $date_start = $session->get('date_start');
-        $timer = $session->get('timer');
+        $timer = $session->get('qcm_timer');
 
         // determining the score
         $score = 0;
@@ -280,24 +229,21 @@ class TestD8Form extends FormBase {
         $session->delete('session_questions');
         $session->delete('questions_list');
         $session->delete('date_start');
-        $session->delete('timer');
+        $session->delete('qcm_timer');
 
         drupal_set_message('Le test est terminé. Votre score est de '.$score.'/'.$total, 'status');
-        $form_state->setRedirect( 
+        $form_state->setRedirect(
             'user.dashboard.tests',
-            array( 
-                'user' => $uid 
+            array(
+                'user' => $uid
                 ),
-            array( 
-                'query' => array( 
-                    'tab' => $nid 
+            array(
+                'query' => array(
+                    'tab' => $nid
                 )
             )
         );
 
-        // regarder ça
-        //$form_state->setTemporaryValue('result', $resultat);
-        //$form_state->setRebuild();
     }
 
     public function paragraphGetValue($object, $fieldname){

@@ -3,14 +3,14 @@
     Drupal.behaviors.jsTestD8 = {
         attach: function (context, settings) {
 
-            $(function(){
+            //$(function(){
 
                 //Set properties
                 var countDownEnd = false;
 
                 // get question IDs
                 var questionIds = new Array();
-                $(".test_d8-question").each(function(index, el){
+                $(".test_d8-question").once('test_d8-question').each(function(index, el){
                     var id = $(this).attr("id").replace("test_d8-question", "");
                     questionIds[index] = id;
                 });
@@ -28,22 +28,22 @@
                 }
 
                 // navigation
-                $("#test_d8-navisual").on("click", ".test_d8-navisual-item", function(e){
+                $("#test_d8-navisual").once('test_d8-navisual').on("click", ".test_d8-navisual-item", function(e){
                     e.preventDefault();
                     var qid = $(this).data("qid"),
                         pos = $(this).data("pos");
                     change_question(pos);
                 });
-                $("#test_d8-nav").on("click", "#test_d8-question-prev", function(e){
+                $("#test_d8-nav").once('test_d8-nav').on("click", "#test_d8-question-prev", function(e){
                     e.preventDefault();
                     change_question('prev');
                 });
-                $("#test_d8-nav").on("click", "#test_d8-question-next", function(e){
+                $("#test_d8-nav").once('test_d8-nav').on("click", "#test_d8-question-next", function(e){
                     e.preventDefault();
                     change_question('next');
                 });
 
-                $("#test_d8-submit").on("click", function(e){
+                $("#test_d8-submit").once('test_d8-submit').on("click", function(e){
                     var diff = (questionIds.length - $("input:radio:checked").length);
                     if (diff && !countDownEnd){
                         var plural = (diff > 1 ? "s" : "");
@@ -53,7 +53,7 @@
                 });
 
                 // apply color to circle when question is answered + update session
-                $("input[name^=propositions]").on("click", function(){
+                $("input[name^=propositions]").once('input-propositions').on("click", function(){
                     var qid = $(this).attr("name").replace("propositions", "");
                     circle_color(qid);
                     update_session(qid);
@@ -153,7 +153,7 @@
                     }
                 });
 
-            });
+            //});
         }
     };
 })(jQuery, Drupal, drupalSettings);

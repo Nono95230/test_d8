@@ -41,15 +41,15 @@ class TestD8FormController extends ControllerBase {
       	}
       }
       $this->session->set('session_questions', $session_questions);
-      //$this->session->set('timer', \Drupal::time()->getCurrentTime());
+      //$this->session->set('qcm_timer', \Drupal::time()->getCurrentTime());
     }
 
     return [/*'#markup' => 'test_d8'*/];
   }
 
   public function updateTimer() {
-		if ($this->session->get('timer')){
-			$this->session->set('timer', \Drupal::time()->getCurrentTime());
+		if ($this->session->get('qcm_timer')){
+			$this->session->set('qcm_timer', \Drupal::time()->getCurrentTime());
 		}
 		return [];
 	}
