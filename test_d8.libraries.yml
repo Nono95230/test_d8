@@ -7,6 +7,7 @@ test-drupal-theme:
     js/test_d8_theme.js: {}
   dependencies:
     - core/jquery
+    - core/jquery.once
 
 test-drupal-test-per-user:
   version: VERSION
@@ -18,6 +19,7 @@ test-drupal-test-per-user:
     js/test_d8_test-per-user.js: {}
   dependencies:
     - core/jquery
+    - core/jquery.once
     - core/jquery.ui.tabs
     - core/drupalSettings
 
@@ -32,6 +34,8 @@ test-drupal:
     js/test_d8.js: {}
   dependencies:
     - core/jquery
+    - core/jquery.once
     - core/drupal
     - core/drupalSettings
-    - core/jquery.once
+
+

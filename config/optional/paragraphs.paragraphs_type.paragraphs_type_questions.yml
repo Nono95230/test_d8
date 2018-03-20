@@ -5,5 +5,5 @@ dependencies: {  }
 id: paragraphs_type_questions
 label: Question
 icon_uuid: null
-description: ''
+description: "Ce paragraph type sert à paramètrer les champs servant à l'insertion d'une question pour un test"
 behavior_plugins: {  }

@@ -141,7 +141,7 @@ display:
           exclude: false
           alter:
             alter_text: true
-            text: '<a class="test_d8-theme-select" href="/test-d8/{{ nid }}">{{ title }}</a>'
+            text: '<a class="test_d8-theme-select" href="/test-drupal8/{{ nid }}">{{ title }}</a>'
             make_link: false
             path: ''
             absolute: false

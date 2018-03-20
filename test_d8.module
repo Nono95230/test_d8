@@ -36,7 +36,7 @@ function test_d8_page_attachments(array &$page){
   $routeName = \Drupal::routeMatch()->getRouteName();
   $current_path = \Drupal::service('path.current')->getPath();
 
-  if ($routeName == 'test_d8.theme') {
+  if ($routeName == 'test_drupal8.qcm') {
     $page['#attached']['library'][] = 'test_d8/test-drupal';
   }
   elseif ($current_path == '/tests-drupal8') {
@@ -59,7 +59,7 @@ function test_d8_views_pre_execute($view){
     $session->delete('session_questions');
     $session->delete('questions_list');
     $session->delete('date_start');
-    $session->delete('timer');
+    $session->delete('qcm_timer');
   }
 
 }

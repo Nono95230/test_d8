@@ -1,9 +1,9 @@
 
-test_d8.theme:
-  path: '/test-d8/{node}'
+test_drupal8.qcm:
+  path: '/test-drupal8/{node}'
   defaults:
-    _title_callback: 'Drupal\test_d8\Form\TestD8Form::getTitle'
-    _controller: '\Drupal\test_d8\Controller\TestD8FormController::content'
+    _title_callback: 'Drupal\test_d8\Form\TestDrupal8QcmForm::getTitle'
+    _controller: '\Drupal\test_d8\Controller\TestDrupal8QcmController::content'
   parameters:
     node:
       type: node
@@ -11,20 +11,20 @@ test_d8.theme:
     _access: 'TRUE'
 
 # called in js/test_d8.js (update_session())
-test_d8.update_session:
-  path: '/test-d8/update-session'
+test_drupal8.qcm.update_session:
+  path: '/test-drupal8/update-session'
   defaults:
     _title: 'Update session'
-    _controller: '\Drupal\test_d8\Controller\TestD8FormController::updateSession'
+    _controller: '\Drupal\test_d8\Controller\TestDrupal8QcmController::updateSession'
   requirements:
     _access: 'TRUE'
 
 # called in js/test_d8.js (update_timer())
-test_d8.update_timer:
-  path: '/test-d8/update-timer'
+test_drupal8.qcm.update_timer:
+  path: '/test-drupal8/update-timer'
   defaults:
     _title: 'Update timer'
-    _controller: '\Drupal\test_d8\Controller\TestD8FormController::updateTimer'
+    _controller: '\Drupal\test_d8\Controller\TestDrupal8QcmController::updateTimer'
   requirements:
     _access: 'TRUE'
 

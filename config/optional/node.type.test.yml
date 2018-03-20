@@ -9,7 +9,7 @@ third_party_settings:
     parent: ''
 name: 'Test D8'
 type: test
-description: ''
+description: 'Ce type de contenu permet de créer un test sous forme de QCM'
 help: ''
 new_revision: true
 preview_mode: 1
