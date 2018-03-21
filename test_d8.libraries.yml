@@ -15,11 +15,12 @@ test-drupal-test-per-user:
     theme:
       css/test_d8_test-per-user.css: {}
   js:
-    https://www.gstatic.com/charts/loader.js: { type: external, minified: true }
+    #https://www.gstatic.com/charts/loader.js: { type: external, minified: true }
+    js/chart.min.js: { minified: true }
     js/test_d8_test-per-user.js: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
+    #- core/jquery.once
     - core/jquery.ui.tabs
     - core/drupalSettings
 
