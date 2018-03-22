@@ -238,7 +238,7 @@ class TestDrupal8QcmForm extends FormBase {
         $session            = \Drupal::service('user.private_tempstore')->get('test_d8');
         $sessionQuestions   = $session->get('session_questions');
         $dateStart          = $session->get('date_start');
-        $time               = \Drupal::time()->getCurrentTime();
+        $dateEnd            = \Drupal::time()->getCurrentTime();
         $uid                = \Drupal::currentUser()->id();
         $node               = \Drupal::routeMatch()->getParameter('node');
         $nid                = $node->id();
@@ -251,7 +251,7 @@ class TestDrupal8QcmForm extends FormBase {
         $argument = array(
             'uid'               => $uid,
             'nid'               => $nid,
-            'time'              => $time,
+            'dateEnd'           => $dateEnd,
             'dateStart'         => $dateStart,
             'scoreResult'       => $scoreResult,
             'sessionQuestions'  => $sessionQuestions
@@ -309,10 +309,9 @@ class TestDrupal8QcmForm extends FormBase {
             'uid' => $arg['uid'],
             'nid' => $arg['nid'],
             'date_start' => $arg['dateStart'],
-            'date_end' => $arg['time'],
+            'date_end' => $arg['dateEnd'],
             'questions_status' => serialize($arg['sessionQuestions']), // q/a to recall in case of interrupted test
-            'score' => $arg['scoreResult'],
-            'timer' => $arg['time']
+            'score' => $arg['scoreResult']
         ])->execute();
 
     }

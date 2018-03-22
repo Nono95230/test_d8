@@ -80,7 +80,10 @@
                         console.log(textStatus + ": " + errorThrown);
                         delay += 1000;
                     }
-                });
+                }).fail(function(jqXHR, textStatus){
+					console.log("fail:" + textStatus);
+					delay += 1000;
+				});
                 timerId = setTimeout(request, delay);
             }, delay);
 

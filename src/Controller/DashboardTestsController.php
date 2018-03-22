@@ -20,9 +20,9 @@ class DashboardTestsController extends ControllerBase {
 
 
 	public function __construct(Connection $database, Time $time, EntityTypeManagerInterface $entityTypeManager){
-		$this->database 			= $database;
-		$this->currentTime 		= $time->getCurrentTime();
-		$this->entityTMNode 	= $entityTypeManager->getStorage('node');
+		$this->database 	= $database;
+		$this->currentTime 	= $time->getCurrentTime();
+		$this->entityTMNode = $entityTypeManager->getStorage('node');
 	}
 
 

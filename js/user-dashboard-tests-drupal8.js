@@ -13,6 +13,7 @@
                 tabId = getQueryStringValue('tab'),
                 activeTab = 0,
                 myChart = [],
+                myChartDoughnut = [],
                 chartOptions = {
                     legend: {
                         display: false
@@ -46,11 +47,11 @@
                 if (tabId == value.id){ activeTab = index; }
 
                 // disable tabs with no data
-                if (value.num == 0){ disabledTabs.push(Number(index)); }
+                if (value.num_test == 0){ disabledTabs.push(Number(index)); }
 
-                // implements drawChart functions
+                // draw line chart
                 myChart[index] = new Chart($("#chart-" + value.id), {
-                    type: (value.num < 2 ? 'bar' : 'line'),
+                    type: (value.num_test < 2 ? 'bar' : 'line'),
                     data: {
                         labels: drupalsettings_chart[index].chartLabels,
                         datasets: [{
@@ -58,11 +59,28 @@
                             lineTension: 0.2,
                             label: '',
                             fill: false,
-                            borderColor: "rgba(0, 120, 164, 0.75)",
+                            borderColor: "#337ab7",
                             borderWidth: 2
                         }]
                     },
                     options: chartOptions
+                });
+				
+                // draw doughnut chart
+                myChartDoughnut[index] = new Chart($("#percent-chart-" + value.id), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ["Bonnes réponses", "Total"],
+                        datasets: [{
+                            data: [drupalsettings_chart[index].percent, (100 - drupalsettings_chart[index].percent)],
+                            backgroundColor: ["#337ab7", "#cccccc"],
+							hoverBackgroundColor: ["#337ab7", "#cccccc"]
+                        }]
+                    },
+                    options: {
+						legend: { display: false },
+						responsive: true
+					}
                 });
             }
 
