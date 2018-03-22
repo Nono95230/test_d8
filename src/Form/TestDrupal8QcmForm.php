@@ -68,7 +68,14 @@ class TestDrupal8QcmForm extends FormBase {
 
             $time = \Drupal::time()->getCurrentTime();
             // Set the session Test D8
-            $this->setSessionTestD8($sessionTestD8, $nodeId, $sessionQuestionsData, $questionsQcmList, $time);
+            $argument = array(
+                'time'                  => $time,
+                'nodeId'                => $nodeId,
+                'sessionTestD8'         => $sessionTestD8,
+                'questionsQcmList'      => $questionsQcmList,
+                'sessionQuestionsData'  => $sessionQuestionsData,
+            );
+            $this->setSessionTestD8($argument);
         }
 
         // nav mini-cercles
@@ -209,13 +216,14 @@ class TestDrupal8QcmForm extends FormBase {
     }
 
 
-    public function setSessionTestD8($session, $nodeId, $sessionQuestionsData, $questionsQcmList, $time){
+    public function setSessionTestD8($arg){
 
-        $session->set('test_d8_session', $nodeId);
-        $session->set('session_questions', $sessionQuestionsData);
-        $session->set('questions_list', $questionsQcmList);
-        $session->set('date_start', $time);
-        $session->set('qcm_timer', $time);
+        $session = $arg['sessionTestD8'];
+        $session->set('test_d8_session', $arg['nodeId']);
+        $session->set('session_questions', $arg['sessionQuestionsData']);
+        $session->set('questions_list', $arg['questionsQcmList']);
+        $session->set('date_start', $arg['time']);
+        $session->set('qcm_timer', $arg['time']);
 
         return $session;
     }
@@ -228,40 +236,33 @@ class TestDrupal8QcmForm extends FormBase {
 
         $form_data          = $form_state->getValues();
         $session            = \Drupal::service('user.private_tempstore')->get('test_d8');
-        $session_questions  = $session->get('session_questions');
-        $date_start         = $session->get('date_start');
+        $sessionQuestions   = $session->get('session_questions');
+        $dateStart          = $session->get('date_start');
         $time               = \Drupal::time()->getCurrentTime();
         $uid                = \Drupal::currentUser()->id();
-        $nid                = \Drupal::routeMatch()->getParameter('node')->id();
+        $node               = \Drupal::routeMatch()->getParameter('node');
+        $nid                = $node->id();
+        $certificationTitle = $node->getTitle();
 
         // Get the Score Result
-        $scoreResult = $this->getScoreResult($form_data, $session_questions);
+        $scoreResult = $this->getScoreResult($form_data, $sessionQuestions);
 
         // Insert in the DB
-        $this->setData($uid, $nid, $date_start, $time, $session_questions, $scoreResult);
+        $argument = array(
+            'uid'               => $uid,
+            'nid'               => $nid,
+            'time'              => $time,
+            'dateStart'         => $dateStart,
+            'scoreResult'       => $scoreResult,
+            'sessionQuestions'  => $sessionQuestions
+        );
+        $this->setData($argument);
 
         // Destroy session
         $this->deleteSessionTestDrupal8($session);
 
         // Display the messages
-        $messages = array(
-            'Test terminé',
-            $this->t('Votre score est de <strong>@score/@nbQuestions</strong> !',
-                array(
-                    '@score'        => $scoreResult,
-                    '@nbQuestions'  => $this->numberQuestions
-                )
-            ),
-        );
-
-        // Display message
-        foreach ($messages as $message) {
-            \Drupal::messenger()->addMessage( $message, $this->getStatus($scoreResult) );
-            // En condition réelle, vous auriez obtenu votre certification $certif, Félicitations  // status
-            // Vous n'êtes plus très loin, Perséverez  // warning
-            // Continuez à vous entrainer jusqu'as...  // error
-        }
-
+        $this->getScoreMessage($scoreResult, $certificationTitle);
 
         // Redirection on the dashboard page
         $form_state->setRedirect(
@@ -279,7 +280,7 @@ class TestDrupal8QcmForm extends FormBase {
     }
 
 
-    public function getScoreResult($form_data, $session_questions){
+    public function getScoreResult($form_data, $sessionQuestions){
         // determining the score
         $score = 0;
         foreach ($form_data as $field => $answer){
@@ -287,7 +288,7 @@ class TestDrupal8QcmForm extends FormBase {
                 $id = substr($field, 12);
                 $answer = substr($answer, 1);
 
-                foreach ($session_questions as $d){
+                foreach ($sessionQuestions as $d){
                     if ($d['id'] == $id){
                         if ($d['answer_valid'] == $answer){
                             ++$score;
@@ -302,16 +303,16 @@ class TestDrupal8QcmForm extends FormBase {
     }
 
 
-    public function setData($uid, $nid, $date, $time, $session, $result){
+    public function setData($arg){
 
         return \Drupal::database()->insert('test_d8_test_result')->fields([
-            'uid' => $uid,
-            'nid' => $nid,
-            'date_start' => $date,
-            'date_end' => $time,
-            'questions_status' => serialize($session), // q/a to recall in case of interrupted test
-            'score' => $result,
-            'timer' => $time
+            'uid' => $arg['uid'],
+            'nid' => $arg['nid'],
+            'date_start' => $arg['dateStart'],
+            'date_end' => $arg['time'],
+            'questions_status' => serialize($arg['sessionQuestions']), // q/a to recall in case of interrupted test
+            'score' => $arg['scoreResult'],
+            'timer' => $arg['time']
         ])->execute();
 
     }
@@ -329,18 +330,49 @@ class TestDrupal8QcmForm extends FormBase {
     }
 
 
-    public function getStatus($scoreResult){
-        // $message = 'Le test est terminé. Votre score est de ' . $scoreResult . '/' . $this->numberQuestions;
-        return ($scoreResult < ($this->numberQuestions * 0.5) ?
-            'error' :
-            (
-                $scoreResult >= ($this->numberQuestions * 0.5) && $scoreResult < ($this->numberQuestions * 0.7) ?
-                'warning' :
-                'status'
-            )
-        );
-    }
+    public function getScoreMessage($scoreResult, $certificationTitle){
+        $messageCommun = 'Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong> !<br>';
 
+        $messagesArray = array(
+            'error'     => $this->t('Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong> !<br>'.
+                                    'Continuez à vous entrainer jusqu\'à obtenir un score de @score/@nbQuestions !',
+                                    array(
+                                        '@score'        => $scoreResult,
+                                        '@nbQuestions'  => $this->numberQuestions
+                                    )
+                            ),
+            'warning'   => $this->t('Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong> !<br>'.
+                                    'Perséverez, vous y étiez presque !', 
+                                    array(
+                                        '@score'        => $scoreResult,
+                                        '@nbQuestions'  => $this->numberQuestions
+                                    )
+                            ),
+            'status'    => $this->t('Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong> !<br>'.
+                                    'Félicitations !!!<br>En condition réelle, vous auriez obtenu votre certification @certifTitle',
+                                    array(
+                                        '@score'       => $scoreResult,
+                                        '@nbQuestions' => $this->numberQuestions,
+                                        '@certifTitle' => $certificationTitle
+                                    )
+                            )
+        );
+
+        if( $scoreResult < ($this->numberQuestions * 0.5) ) {
+            $status  = 'error';
+            $message = $messagesArray[$status];
+        }
+        elseif( $scoreResult >= ($this->numberQuestions * 0.5) && $scoreResult < ($this->numberQuestions * 0.7) ) {
+            $status  = 'warning';
+            $message = $messagesArray[$status];
+        }
+        elseif( $scoreResult >= ($this->numberQuestions * 0.7) ) {
+            $status  = 'status';
+            $message = $messagesArray[$status];
+        }
+        
+        return \Drupal::messenger()->addMessage( $message, $status );
+    }
 
 
 }

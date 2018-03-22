@@ -8,11 +8,11 @@ dependencies:
   theme:
     - bootstrap
 _core:
-  default_config_hash: rvEeSnmb2ZjwNN34pkFysRYurQW2bRs4YsNKkTKqCRk
+  default_config_hash: VWKrBHRYON02R7LVyp13Ab7-X54s8a3yrTsHc-Mbx0U
 id: charttestsdrupal8
 theme: bootstrap
-region: highlighted
-weight: 0
+region: content
+weight: -7
 provider: null
 plugin: chart_tests_drupal8
 settings:

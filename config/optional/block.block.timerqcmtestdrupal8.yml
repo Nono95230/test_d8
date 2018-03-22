@@ -8,10 +8,10 @@ dependencies:
   theme:
     - bootstrap
 _core:
-  default_config_hash: zgkCylON1A74cR7iERPI2H6rCf7O7UTNPL5r1PWnxkU
+  default_config_hash: HaJyoqmPKC5vr3OstLHBaVqWj44xcrRm0qji8CVPpDU
 id: timerqcmtestdrupal8
 theme: bootstrap
-region: highlighted
+region: content
 weight: -6
 provider: null
 plugin: timer_qcm_test_drupal8
