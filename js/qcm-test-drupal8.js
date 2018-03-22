@@ -122,9 +122,9 @@
                 }
 
                 // countdown timer
-                var note = $('#test_d8-countdowntimer-note');//,
+                var note = $('#timer_qcm-note');//,
                     //ts = new Date(drupalSettings.countdown.unixtimestamp * 1000);
-                $(context).find('#test_d8-countdowntimer').once('test_d8-countdowntimer').countdown({
+                $(context).find('#timer_qcm').once('timer_qcm').countdown({
                     //timestamp: ts,
                     timestamp: (drupalSettings.TestD8.countdown * 1000),
                     callback: function (weeks, days, hours, minutes, seconds) {

@@ -49,9 +49,7 @@ class TestDrupal8QcmForm extends FormBase {
         $sessionTestD8 = \Drupal::service('user.private_tempstore')->get('test_d8');
 
         // isset Test D8 Session
-        $findSessionTestD8 = ( $sessionTestD8->get('test_d8_session') == $nodeId ) ? true : false ;
-
-        if ($findSessionTestD8){
+        if ( $sessionTestD8->get('test_d8_session') == $nodeId ){
             // get the 40 questions in the session
             $questionsQcmList = $sessionTestD8->get('questions_list');
         } else {
@@ -63,7 +61,7 @@ class TestDrupal8QcmForm extends FormBase {
             $questions = Paragraph::loadMultiple($questionIds);
 
             // get only 40 questions randomly formated
-            $questionsQcmList = $this->getCurrentQcmQuestions($questions, $this->numberQuestions);
+            $questionsQcmList = $this->getCurrentQcmQuestions($questions);
 
             // storing q/a
             $sessionQuestionsData = $this->getSessionQuestionsData($questionsQcmList);
@@ -81,6 +79,7 @@ class TestDrupal8QcmForm extends FormBase {
                 'id' => 'test_d8-navisual',
             ],
         ];
+
         $i = 0;
         foreach ($questionsQcmList as $data){
             $form['navisual']['circle'.$i] = [
@@ -158,11 +157,11 @@ class TestDrupal8QcmForm extends FormBase {
             $ids[] = $d['target_id'];
         }
         return $ids;
-        
+
     }
 
 
-    public function getCurrentQcmQuestions($questions, $numberQuestions){
+    public function getCurrentQcmQuestions($questions){
 
         $tmpList = [];
         foreach ($questions as $id => $para){
@@ -182,11 +181,11 @@ class TestDrupal8QcmForm extends FormBase {
         $questionsList = array_slice(
             $tmpList,
             0,
-            $numberQuestions
+            $this->numberQuestions
         );
 
         return $questionsList;
-        
+
     }
 
 
@@ -235,8 +234,8 @@ class TestDrupal8QcmForm extends FormBase {
         $uid                = \Drupal::currentUser()->id();
         $nid                = \Drupal::routeMatch()->getParameter('node')->id();
 
-
-        $scoreResult        = $this->getScoreResult($form_data, $session_questions);
+        // Get the Score Result
+        $scoreResult = $this->getScoreResult($form_data, $session_questions);
 
         // Insert in the DB
         $this->setData($uid, $nid, $date_start, $time, $session_questions, $scoreResult);
@@ -244,9 +243,25 @@ class TestDrupal8QcmForm extends FormBase {
         // Destroy session
         $this->deleteSessionTestDrupal8($session);
 
-        // Display the message
-        $message = 'Le test est terminé. Votre score est de ' . $scoreResult . '/' . $this->numberQuestions;
-        \Drupal::messenger()->addStatus($message);
+        // Display the messages
+        $messages = array(
+            'Test terminé',
+            $this->t('Votre score est de <strong>@score/@nbQuestions</strong> !',
+                array(
+                    '@score'        => $scoreResult,
+                    '@nbQuestions'  => $this->numberQuestions
+                )
+            ),
+        );
+
+        // Display message
+        foreach ($messages as $message) {
+            \Drupal::messenger()->addMessage( $message, $this->getStatus($scoreResult) );
+            // En condition réelle, vous auriez obtenu votre certification $certif, Félicitations  // status
+            // Vous n'êtes plus très loin, Perséverez  // warning
+            // Continuez à vous entrainer jusqu'as...  // error
+        }
+
 
         // Redirection on the dashboard page
         $form_state->setRedirect(
@@ -312,6 +327,20 @@ class TestDrupal8QcmForm extends FormBase {
         return $session;
 
     }
+
+
+    public function getStatus($scoreResult){
+        // $message = 'Le test est terminé. Votre score est de ' . $scoreResult . '/' . $this->numberQuestions;
+        return ($scoreResult < ($this->numberQuestions * 0.5) ?
+            'error' :
+            (
+                $scoreResult >= ($this->numberQuestions * 0.5) && $scoreResult < ($this->numberQuestions * 0.7) ?
+                'warning' :
+                'status'
+            )
+        );
+    }
+
 
 
 }

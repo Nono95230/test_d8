@@ -8,8 +8,8 @@ use Drupal\Core\Block\BlockBase;
  * Provides a timer block.
  *
  * @Block(
- *   id = "test_d8_countdown_timer",
- *   admin_label = @Translation("Test D8 countdown timer"),
+ *   id = "timer_qcm_test_drupal8",
+ *   admin_label = @Translation("Timer Qcm Test Drupal 8"),
  * )
  */
 class TimerBlock extends BlockBase {
@@ -22,7 +22,7 @@ class TimerBlock extends BlockBase {
     $time = \Drupal::time()->getCurrentTime();
     $testD8Time = $time + $config->get('time_to_complete_test');
     $build = [];
-    $build['#theme'] = 'countdowntimer';
+    $build['#theme'] = 'timer_qcm_test_drupal8';
 
     // set timer
     $session = \Drupal::service('user.private_tempstore')->get('test_d8');

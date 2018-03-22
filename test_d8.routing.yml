@@ -10,7 +10,7 @@ test_drupal8.qcm:
   requirements:
     _access: 'TRUE'
 
-# called in js/test_d8.js (update_session())
+# called in js/qcm-test-drupal8.js (update_session())
 test_drupal8.qcm.update_session:
   path: '/test-drupal8/update-session'
   defaults:
@@ -19,7 +19,7 @@ test_drupal8.qcm.update_session:
   requirements:
     _access: 'TRUE'
 
-# called in js/test_d8.js (update_timer())
+# called in js/qcm-test-drupal8.js (update_timer())
 test_drupal8.qcm.update_timer:
   path: '/test-drupal8/update-timer'
   defaults:
@@ -29,7 +29,7 @@ test_drupal8.qcm.update_timer:
     _access: 'TRUE'
 
 user.dashboard.tests:
-  path: '/user/{user}/dashboard/tests'
+  path: '/user/{user}/dashboard/tests-drupal8'
   defaults:
     _title: 'Mes tests'
     _controller: '\Drupal\test_d8\Controller\DashboardTestsController::getDashboard'

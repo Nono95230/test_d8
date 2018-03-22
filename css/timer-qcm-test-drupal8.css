@@ -1,4 +1,4 @@
-#test_d8-countdowntimer{
+#timer_qcm{
 	float:right;
 	font-size:28px;
 }
@@ -84,7 +84,7 @@
 	top:0.9em;
 }
 
-#test_d8-countdowntimer-note{
+#timer_qcm-note{
 display:none;
 	/*color: #666666;
 	text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3);

@@ -1,37 +1,36 @@
-test-drupal-theme:
+library-view-list-tests-drupal8:
   version: VERSION
   css:
     theme:
-      css/test_d8_theme.css: {}
+      css/view-list-tests-drupal8.css: {}
   js:
-    js/test_d8_theme.js: {}
+    js/view-list-tests-drupal8.js: {}
   dependencies:
     - core/jquery
     - core/jquery.once
 
-test-drupal-test-per-user:
+library-user-dashboard-tests-drupal8:
   version: VERSION
   css:
     theme:
-      css/test_d8_test-per-user.css: {}
+      css/user-dashboard-tests-drupal8.css: {}
   js:
-    https://www.gstatic.com/charts/loader.js: { type: external, minified: true }
-    js/test_d8_test-per-user.js: {}
+    js/chart.min.js: { minified: true }
+    js/user-dashboard-tests-drupal8.js: {}
   dependencies:
     - core/jquery
-    - core/jquery.once
     - core/jquery.ui.tabs
     - core/drupalSettings
 
-test-drupal:
+library-qcm-test-drupal8:
   version: VERSION
   css:
     theme:
-      css/test_d8.css: {}
-      css/test_d8_countdown_timer.css: {}
+      css/qcm-test-drupal8.css: {}
+      css/timer-qcm-test-drupal8.css: {}
   js:
-    js/test_d8_countdown_timer.js: {}
-    js/test_d8.js: {}
+    js/timer-qcm-test-drupal8.js: {}
+    js/qcm-test-drupal8.js: {}
   dependencies:
     - core/jquery
     - core/jquery.once

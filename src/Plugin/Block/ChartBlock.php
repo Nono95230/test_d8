@@ -8,8 +8,8 @@ use Drupal\Core\Block\BlockBase;
  * Provides a chart block.
  *
  * @Block(
- *   id = "test_d8_chart",
- *   admin_label = @Translation("Test D8 results chart"),
+ *   id = "chart_tests_drupal8",
+ *   admin_label = @Translation("Chart Tests Drupal 8"),
  * )
  */
 class ChartBlock extends BlockBase {
@@ -18,79 +18,47 @@ class ChartBlock extends BlockBase {
   * {@inheritdoc}
   */
   public function build() {
-    //$build = ['#markup' => '<h1>pipo</h1>'];
 
     $themes = $this->getThemes();
 
     $config = \Drupal::config('test_d8.settings');
     $number_of_questions = $config->get('number_of_questions');
 
-    $build['#theme'] = 'test_per_user_chart';
-    //$build['#data']['tabs'] = $themes;
+    $build['#theme'] = 'chart_tests_drupal8';
 
-    $scores = [];
+    $data = [];
     $tabs = [];
-    $i = 0;
     foreach ($themes as $theme_id => $theme_name){
-      $data = $this->getScoresByTheme($theme_id);
-      $scores[$i][$theme_id] = [];
-      //$scores[$i][$theme_id]['name'] = $theme_name;
-      $tabs[$theme_id] = [
-        'num' => count($data),
-        'name' => $theme_name,
-      ];
-      foreach ($data as $obj){
-        $scores[$i][$theme_id][] = [date('j M Y', $obj->date_start) . "\n" . date('H\hi', $obj->date_start), $obj->score];
+      $scores = $this->getScoresByTheme($theme_id);
+      $num = count($scores);
+
+      // tableau de données transmises au JS
+      $chartLabels = [];
+      $chartData = [];
+      foreach ($scores as $obj){
+        $chartLabels[] = [date('j M Y', $obj->date_start), date('H\hi', $obj->date_start)];
+        $chartData[] = (int)$obj->score;
       }
-      ++$i;
+      $data[] = [
+        'id' => $theme_id,
+        'name' => $theme_name,
+        'num' => $num,
+        'chartLabels' => $chartLabels,
+        'chartData' => $chartData,
+      ];
+
+      // données transmises à twig (jquery ui tabs)
+      $tabs[$theme_id] = [
+        'name' => $theme_name,
+        'num' => $num,
+        //'score' => $num,
+      ];
     }
+
+    $build['#attached']['drupalSettings']['TestD8']['chart']['data'] = $data;
     $build['#data']['tabs'] = $tabs;
 
-/*
-var_dump($scores);
-array(2) {
-  [0]=> array(1) { <- index des tabs jquery ui
-    [1]=> array(3) { <- nid
-      [0]=> array(2) {
-        [0]=> string(23) "14 Mar 2018 à 11:19:42"
-        [1]=> string(1) "3"
-      }
-      [1]=> array(2) {
-        [0]=> string(23) "14 Mar 2018 à 11:19:01"
-        [1]=> string(1) "4"
-      }
-      [2]=> array(2) {
-        [0]=> string(23) "14 Mar 2018 à 11:14:19"
-        [1]=> string(1) "5"
-      }
-    }
-  }
-  [1]=> array(1) {
-    [2]=> array(1) {
-      [0]=> array(2) {
-        [0]=> string(23) "15 Mar 2018 à 13:32:06"
-        [1]=> string(1) "4"
-      }
-    }
-  }
-}
-*/
-
-    $build['#attached']['drupalSettings']['TestD8']['chart']['rows'] = $scores;
-
     $build['#attached']['drupalSettings']['TestD8']['chart']['number_of_questions'] = $number_of_questions;
-    $build['#attached']['drupalSettings']['TestD8']['chart']['Webmaster'] = [
-      ["10 déc 2014\n11h20", 21],
-      ["5 juin 2015\n11h20", 32],
-      ["10 sep 2016\n11h20", 28],
-      ["15 nov 2017\n11h20", 36]
-    ];
-    $build['#attached']['drupalSettings']['TestD8']['chart']['Themer'] = [
-      ['10 déc 2014', 18],
-      ['5 juin 2015', 24],
-      ['10 sep 2016', 21],
-      ['15 nov 2017', 34]
-    ];
 
     return $build;
   }
@@ -113,7 +81,7 @@ array(2) {
       ->fields('d8', ['score', 'date_start'])
       ->condition('uid', $this->getCurrentUserID())
       ->condition('nid', $theme_id)
-      ->orderBy('date_end', 'DESC')
+      ->orderBy('date_end', 'ASC')
       ->execute()
       ->fetchAll();
   }

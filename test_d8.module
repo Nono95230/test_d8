@@ -21,12 +21,12 @@ function test_d8_help($route_name, RouteMatchInterface $route_match){
  */
 function test_d8_theme($existing, $type, $theme, $path){
   return [
-    'test_per_user_chart' => [
-      'template' => 'test-per-user-chart',
+    'chart_tests_drupal8' => [
+      'template' => 'chart-tests-drupal8',
       'variables' => ['data' => NULL]
     ],
-    'countdowntimer' => [
-      'template' => 'countdowntimer',
+    'timer_qcm_test_drupal8' => [
+      'template' => 'timer-qcm-test-drupal8',
       'variables' => ['data' => NULL]
     ],
   ];
@@ -37,13 +37,13 @@ function test_d8_page_attachments(array &$page){
   $current_path = \Drupal::service('path.current')->getPath();
 
   if ($routeName == 'test_drupal8.qcm') {
-    $page['#attached']['library'][] = 'test_d8/test-drupal';
+    $page['#attached']['library'][] = 'test_d8/library-qcm-test-drupal8';
   }
   elseif ($current_path == '/tests-drupal8') {
-    $page['#attached']['library'][] = 'test_d8/test-drupal-theme';
+    $page['#attached']['library'][] = 'test_d8/library-view-list-tests-drupal8';
   }
   elseif ($routeName == 'user.dashboard.tests') {
-    $page['#attached']['library'][] = 'test_d8/test-drupal-test-per-user';
+    $page['#attached']['library'][] = 'test_d8/library-user-dashboard-tests-drupal8';
   }
 
 

@@ -1,4 +1,4 @@
-uuid: 7d66cc03-1ca3-4d08-896b-b57aea1477e9
+uuid: b141415c-4786-42fc-a47a-c69c67eea3d9
 langcode: fr
 status: true
 dependencies:
@@ -8,21 +8,21 @@ dependencies:
   theme:
     - bootstrap
 _core:
-  default_config_hash: zgkCylON1A74cR7iERPI2H6rCf7O7UTNPL5r1PWnxkU
-id: testd8countdowntimer
+  default_config_hash: rvEeSnmb2ZjwNN34pkFysRYurQW2bRs4YsNKkTKqCRk
+id: charttestsdrupal8
 theme: bootstrap
 region: highlighted
-weight: -6
+weight: 0
 provider: null
-plugin: test_d8_countdown_timer
+plugin: chart_tests_drupal8
 settings:
-  id: test_d8_countdown_timer
-  label: 'Test D8 Countdown timer'
+  id: chart_tests_drupal8
+  label: 'Chart Tests Drupal 8'
   provider: test_d8
   label_display: '0'
 visibility:
   request_path:
     id: request_path
-    pages: '*/test-drupal8/*'
+    pages: '/user/*/dashboard/tests-drupal8'
     negate: false
     context_mapping: {  }

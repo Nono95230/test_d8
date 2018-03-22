@@ -1,5 +1,5 @@
 number_of_questions: 40
 time_to_complete_test: 3600 # seconds
-num_tests_per_page: 20 # pagination for tests_per_user
+num_tests_per_page: 20 # pagination for user.dashboard.tests
 namespace:
   qcm_form: 'Drupal\test_d8\Form\TestDrupal8QcmForm'
