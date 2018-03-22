@@ -1,0 +1,27 @@
+langcode: fr
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_score_uid
+    - node.type.score
+id: node.score.field_score_uid
+field_name: field_score_uid
+entity_type: node
+bundle: score
+label: 'uid (id de l''utilisateur)'
+description: 'Indique l''uid de l''utilisateur qui a passé le test'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:user'
+  handler_settings:
+    include_anonymous: true
+    filter:
+      type: _none
+    target_bundles: null
+    sort:
+      field: _none
+    auto_create: false
+field_type: entity_reference

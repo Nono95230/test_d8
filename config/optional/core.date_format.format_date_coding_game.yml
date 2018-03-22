@@ -1,0 +1,8 @@
+uuid: 0bf4df64-49be-4e58-9b1b-900468fa364b
+langcode: fr
+status: true
+dependencies: {  }
+id: format_date_coding_game
+label: 'Format Date Coding Game'
+locked: false
+pattern: 'l j F Y à H:i'

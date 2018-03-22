@@ -11,6 +11,7 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\node\NodeInterface;
 use Drupal\paragraphs\Entity\Paragraph;
+use Drupal\node\Entity\Node;
 
 /**
  * Implements an test_d8 form
@@ -43,7 +44,6 @@ class TestDrupal8QcmForm extends FormBase {
 
 
     public function buildForm(array $form, FormStateInterface $form_state, NodeInterface $node = null){
-
 
         $nodeId = $node->id();
         $sessionTestD8 = \Drupal::service('user.private_tempstore')->get('test_d8');
@@ -253,6 +253,7 @@ class TestDrupal8QcmForm extends FormBase {
             'nid'               => $nid,
             'dateEnd'           => $dateEnd,
             'dateStart'         => $dateStart,
+            'certifTitle'       => $certificationTitle,
             'scoreResult'       => $scoreResult,
             'sessionQuestions'  => $sessionQuestions
         );
@@ -305,15 +306,36 @@ class TestDrupal8QcmForm extends FormBase {
 
     public function setData($arg){
 
+        $titleScore = 'Test Drupal 8 '.$arg['certifTitle'].' le '.format_date($arg['dateEnd'], 'format_date_coding_game');
+
+        $node = Node::create(['type'=> 'score']);
+        $node->set('title', $this->formatValueCT($titleScore) );
+        $node->set('uid', $this->formatValueCT(1, 'target_id') ) ;
+        $node->set('field_score_nid', $this->formatValueCT($arg['nid'], 'target_id') );
+        $node->set('field_score_uid', $this->formatValueCT($arg['uid'], 'target_id') );
+        $node->set('field_score_date_start', $this->formatValueCT(format_date($arg['dateStart'], 'format_date_content_type')) );
+        $node->set('field_score_date_end', $this->formatValueCT(format_date($arg['dateEnd'], 'format_date_content_type')) );
+        $node->set('field_score_result', $this->formatValueCT($arg['scoreResult']) );
+        $node->save();
+
         return \Drupal::database()->insert('test_d8_test_result')->fields([
             'uid' => $arg['uid'],
             'nid' => $arg['nid'],
             'date_start' => $arg['dateStart'],
             'date_end' => $arg['dateEnd'],
-            'questions_status' => serialize($arg['sessionQuestions']), // q/a to recall in case of interrupted test
+            'questions_status' => serialize($arg['sessionQuestions']),
             'score' => $arg['scoreResult']
         ])->execute();
 
+    }
+
+    
+    /*
+     * Formated the field value in a creation of content 
+     * formatValueCT === formatValueContentType
+     */
+    public function formatValueCT($value, $key = 'value'){
+        return array( $key => $value );
     }
 
 
