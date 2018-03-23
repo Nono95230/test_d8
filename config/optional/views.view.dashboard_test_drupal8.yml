@@ -11,6 +11,8 @@ dependencies:
     - datetime
     - node
     - user
+_core:
+  default_config_hash: GwFfQb2qGxVCMFN8l7S-8fPJoKIpqT7jvtcA5_DsqwU
 id: dashboard_test_drupal8
 label: 'Dashboard Test Drupal8'
 module: views
@@ -355,7 +357,20 @@ display:
       title: 'Test Drupal8 Dashboard'
       header: {  }
       footer: {  }
-      empty: {  }
+      empty:
+        area:
+          id: area
+          table: views
+          field: area
+          relationship: none
+          group_type: group
+          admin_label: ''
+          empty: true
+          tokenize: false
+          content:
+            value: '<p>Aucun test pour le moment. <br>C''est l''occasion de <a href=''/tests-drupal8''>passer votre premier test</a> !<p>'
+            format: full_html
+          plugin_id: text
       relationships: {  }
       arguments:
         uid:
@@ -384,16 +399,11 @@ display:
             sort_order: asc
             number_of_records: 0
             format: default_summary
-          specify_validation: true
+          specify_validation: false
           validate:
-            type: 'entity:user'
-            fail: ignore
-          validate_options:
-            operation: view
-            multiple: 0
-            access: false
-            restrict_roles: false
-            roles: {  }
+            type: none
+            fail: 'not found'
+          validate_options: {  }
           break_phrase: false
           not: false
           entity_type: node
@@ -420,7 +430,7 @@ display:
     position: 1
     display_options:
       display_extenders: {  }
-      path: user/dashboard/tests-drupal8
+      path: user/%user/dashboard/tests-drupal8
       display_description: 'Page listant les tests effectués par un utilisateur'
     cache_metadata:
       max-age: -1

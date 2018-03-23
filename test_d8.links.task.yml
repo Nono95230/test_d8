@@ -1,5 +1,5 @@
 user.dashboard.tests.task.old:
-  title: 'Mes tests'
+  title: 'Mes tests old'
   route_name: user.dashboard.tests
   base_route: entity.user.canonical
   weight: 20
