@@ -2,8 +2,7 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.score.field_score_date_end
-    - field.field.node.score.field_score_date_start
+    - field.field.node.score.field_score_date_test
     - field.field.node.score.field_score_nid
     - field.field.node.score.field_score_result
     - field.field.node.score.field_score_uid
@@ -22,14 +21,8 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_score_date_end:
-    weight: 124
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_score_date_start:
-    weight: 123
+  field_score_date_test:
+    weight: 126
     settings: {  }
     third_party_settings: {  }
     type: datetime_default

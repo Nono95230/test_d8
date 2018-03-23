@@ -4,6 +4,8 @@ status: true
 dependencies:
   module:
     - node
+_core:
+  default_config_hash: V7u0Iv6-igszjI-6OiGIKLGjtPvgk5uicPqbhgot3KE
 id: node.field_score_nid
 field_name: field_score_nid
 entity_type: node

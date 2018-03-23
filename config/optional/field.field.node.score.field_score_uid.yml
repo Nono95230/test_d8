@@ -8,7 +8,7 @@ id: node.score.field_score_uid
 field_name: field_score_uid
 entity_type: node
 bundle: score
-label: 'uid (id de l''utilisateur)'
+label: 'uid (id de l''Utilisateur)'
 description: 'Indique l''uid de l''utilisateur qui a passé le test'
 required: true
 translatable: false

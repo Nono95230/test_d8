@@ -9,7 +9,7 @@ third_party_settings:
     available_menus: {  }
     parent: ''
 _core:
-  default_config_hash: 2t7m9OdrdeQ6re5pyfoqCzbbYo7UiuwvYZ7UFspqoJ8
+  default_config_hash: DiC0Ji5LL9PY4wsVHiUxtCRbPtN3VTmzGSs_4h_zejA
 name: 'Test D8'
 type: test
 description: 'Ce type de contenu permet de créer un test sous forme de QCM'

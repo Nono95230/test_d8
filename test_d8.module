@@ -34,15 +34,15 @@ function test_d8_theme($existing, $type, $theme, $path){
 
 function test_d8_page_attachments(array &$page){
   $routeName = \Drupal::routeMatch()->getRouteName();
-  $current_path = \Drupal::service('path.current')->getPath();
 
   if ($routeName == 'test_drupal8.qcm') {
     $page['#attached']['library'][] = 'test_d8/library-qcm-test-drupal8';
   }
-  elseif ($current_path == '/tests-drupal8') {
+  elseif ($routeName == 'view.test_drupal8.page_1') {
     $page['#attached']['library'][] = 'test_d8/library-view-list-tests-drupal8';
   }
-  elseif ($routeName == 'user.dashboard.tests') {
+  elseif ($routeName == 'user.dashboard.tests' || $routeName == 'view.dashboard_test_drupal8.page_1' ) {// @todo removez this line and decomment under line
+  //elseif ($routeName == 'view.dashboard_test_drupal8.page_1' ) {
     $page['#attached']['library'][] = 'test_d8/library-user-dashboard-tests-drupal8';
   }
 }
@@ -61,8 +61,8 @@ function test_d8_views_pre_execute($view){
     $session->delete('qcm_timer');
   }
 
-}
-*/
+}*/
+
 
 // send settings to JS
 function test_d8_preprocess_html(&$variables) {

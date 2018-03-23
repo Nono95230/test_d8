@@ -2,8 +2,7 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.score.field_score_date_end
-    - field.field.node.score.field_score_date_start
+    - field.field.node.score.field_score_date_test
     - field.field.node.score.field_score_nid
     - field.field.node.score.field_score_result
     - field.field.node.score.field_score_uid
@@ -16,21 +15,12 @@ targetEntityType: node
 bundle: score
 mode: default
 content:
-  field_score_date_end:
-    weight: 3
+  field_score_date_test:
+    weight: 5
     label: above
     settings:
+      format_type: medium
       timezone_override: ''
-      format_type: format_date_coding_game
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
-  field_score_date_start:
-    weight: 2
-    label: above
-    settings:
-      timezone_override: ''
-      format_type: format_date_coding_game
     third_party_settings: {  }
     type: datetime_default
     region: content
@@ -55,9 +45,10 @@ content:
     weight: 0
     label: above
     settings:
-      link: true
+      view_mode: default
+      link: false
     third_party_settings: {  }
-    type: entity_reference_label
+    type: entity_reference_entity_view
     region: content
 hidden:
   langcode: true

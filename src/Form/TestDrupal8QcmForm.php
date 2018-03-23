@@ -237,8 +237,8 @@ class TestDrupal8QcmForm extends FormBase {
         $form_data          = $form_state->getValues();
         $session            = \Drupal::service('user.private_tempstore')->get('test_d8');
         $sessionQuestions   = $session->get('session_questions');
-        $dateStart          = $session->get('date_start');
-        $dateEnd            = \Drupal::time()->getCurrentTime();
+        $dateStart          = $session->get('date_start');//@todo remove
+        $dateTest           = \Drupal::time()->getCurrentTime();
         $uid                = \Drupal::currentUser()->id();
         $node               = \Drupal::routeMatch()->getParameter('node');
         $nid                = $node->id();
@@ -251,8 +251,8 @@ class TestDrupal8QcmForm extends FormBase {
         $argument = array(
             'uid'               => $uid,
             'nid'               => $nid,
-            'dateEnd'           => $dateEnd,
-            'dateStart'         => $dateStart,
+            'dateTest'          => $dateTest,
+            'dateStart'         => $dateStart,//@todo remove
             'certifTitle'       => $certificationTitle,
             'scoreResult'       => $scoreResult,
             'sessionQuestions'  => $sessionQuestions
@@ -306,15 +306,13 @@ class TestDrupal8QcmForm extends FormBase {
 
     public function setData($arg){
 
-        $titleScore = 'Test Drupal 8 '.$arg['certifTitle'].' le '.format_date($arg['dateEnd'], 'format_date_coding_game');
+        $titleScore = 'Test Drupal 8 '.$arg['certifTitle'].' le '.format_date($arg['dateTest'], 'format_date_coding_game');
 
         $node = Node::create(['type'=> 'score']);
         $node->set('title', $this->formatValueCT($titleScore) );
-        $node->set('uid', $this->formatValueCT(1, 'target_id') ) ;
+        $node->set('uid', $this->formatValueCT($arg['uid'], 'target_id') ) ;
         $node->set('field_score_nid', $this->formatValueCT($arg['nid'], 'target_id') );
-        $node->set('field_score_uid', $this->formatValueCT($arg['uid'], 'target_id') );
-        $node->set('field_score_date_start', $this->formatValueCT(format_date($arg['dateStart'], 'format_date_content_type')) );
-        $node->set('field_score_date_end', $this->formatValueCT(format_date($arg['dateEnd'], 'format_date_content_type')) );
+        $node->set('field_score_date_test', $this->formatValueCT(format_date($arg['dateTest'], 'format_date_content_type')) );
         $node->set('field_score_result', $this->formatValueCT($arg['scoreResult']) );
         $node->save();
 
@@ -322,16 +320,16 @@ class TestDrupal8QcmForm extends FormBase {
             'uid' => $arg['uid'],
             'nid' => $arg['nid'],
             'date_start' => $arg['dateStart'],
-            'date_end' => $arg['dateEnd'],
+            'date_end' => $arg['dateTest'],
             'questions_status' => serialize($arg['sessionQuestions']),
             'score' => $arg['scoreResult']
         ])->execute();
 
     }
 
-    
+
     /*
-     * Formated the field value in a creation of content 
+     * Formated the field value in a creation of content
      * formatValueCT === formatValueContentType
      */
     public function formatValueCT($value, $key = 'value'){
@@ -363,7 +361,7 @@ class TestDrupal8QcmForm extends FormBase {
                                     )
                             ),
             'warning'   => $this->t('Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong> !<br>'.
-                                    'Perséverez, vous y étiez presque !', 
+                                    'Perséverez, vous y étiez presque !',
                                     array(
                                         '@score'        => $scoreResult,
                                         '@nbQuestions'  => $this->numberQuestions
@@ -391,7 +389,7 @@ class TestDrupal8QcmForm extends FormBase {
             $status  = 'status';
             $message = $messagesArray[$status];
         }
-        
+
         return \Drupal::messenger()->addMessage( $message, $status );
     }
 

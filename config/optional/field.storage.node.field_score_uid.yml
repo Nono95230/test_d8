@@ -5,6 +5,8 @@ dependencies:
   module:
     - node
     - user
+_core:
+  default_config_hash: SFfSrwYRRJ8ONfyL4mo5SXazBn2wznh7MTLJzx9KvAw
 id: node.field_score_uid
 field_name: field_score_uid
 entity_type: node

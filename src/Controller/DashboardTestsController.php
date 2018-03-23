@@ -36,56 +36,51 @@ class DashboardTestsController extends ControllerBase {
 
 	public function getDashboard() {
 
-	  	$resultsTests = $this->getData();
-	  	$countATR = count($resultsTests);// count resultsTests
-	    $emptyMessage = $this->t(
-	    	"Vous n'avez passé aucun test jusqu'à présent... \nC'est l'occasion de <a href='@link'>passer votre premier test</a> !",
-	    	array(
-	    		'@link'   => Url::fromRoute('view.test_drupal8.page_1')->toString()
-	    	)
-	    );
-	    $message = $this->t(
-	    	"Vous avez effectué %number test@plural ! \nPasser en un de plus <a href='@link'>ici</a>",
-	    	array(
-		        "%number" => count($resultsTests),
-		        "@plural" => $this->frenchPlural(count($resultsTests)),
-	    		'@link'   => Url::fromRoute('view.test_drupal8.page_1')->toString()
+  	$resultsTests = $this->getData();
+  	$countATR = count($resultsTests);// count resultsTests
+    $emptyMessage = $this->t(
+    	"Aucun test pour le moment. \nC'est l'occasion de <a href='@link'>passer votre premier test</a> !",
+    	['@link'   => Url::fromRoute('view.test_drupal8.page_1')->toString()]
+    );
+    $message = $this->t(
+    	"Vous avez effectué @number test@plural.",
+    	[
+	      "@number" => count($resultsTests),
+	      "@plural" => $this->frenchPlural(count($resultsTests)),
+	    ]
+    );
 
-		    )
-	    );
-
-		$options = array();
-		$header = array(
+		$options = [];
+		$header = [
 			$this->t('Thème'),
 			$this->t('Date'),
 			$this->t('Temps passé'),
 			$this->t('Résultat')
-		);
+		];
 
-	 	foreach($resultsTests as $currentTest){
-			$options[] = array(
-		        $this->getNodeTitle($currentTest->nid),
+	 	foreach ($resultsTests as $currentTest){
+			$options[] = [
+		    $this->getNodeTitle($currentTest->nid),
 				$this->getFormatedDate($currentTest->date_end),
-		        $this->getPassedTime($currentTest->date_end, $currentTest->date_start),
-		        $currentTest->score
-			);
+		    $this->getPassedTime($currentTest->date_end, $currentTest->date_start),
+		    $currentTest->score
+			];
 		}
 
 
-		$output["table"] = array(
+		$output["table"] = [
 			'#theme' => 'table',
 			'#header' => $header,
 			'#cache' => ['disabled' => TRUE],
 			'#rows' => $options,
 			'#empty' => $emptyMessage
-		);
+		];
 
-	    if ( !empty($options) ) {
-	      $output["table"]['#caption'] = $message;
-	    }
+    if (!empty($options)) {
+      $output["table"]['#caption'] = $message;
+    }
 
 		return array($output);
-
 	}
 
 
