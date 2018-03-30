@@ -2,91 +2,87 @@
     'use strict';
     Drupal.behaviors.jsTestD8Chart = {
         attach: function (context, settings) {
-
-            function getQueryStringValue(key){
-                return decodeURIComponent(window.location.search.replace(new RegExp("^(?:.*[&\\?]" + encodeURIComponent(key).replace(/[\.\+\*]/g, "\\$&") + "(?:\\=([^&]*))?)?.*$", "i"), "$1"));
-            }
-
-            var drupalsettings_chart = drupalSettings.TestD8.chart.data,
-                num_questions = drupalSettings.TestD8.chart.number_of_questions,
-                disabledTabs = [],
-                tabId = getQueryStringValue('tab'),
-                activeTab = 0,
-                myChart = [],
-                myChartDoughnut = [],
-                chartOptions = {
-                    legend: {
-                        display: false
+            Highcharts.setOptions({
+                lang: {
+                    decimalPoint: ',',
+                    thousandsSep: ' ',
+                    months: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+                    shortMonths: ['jan','fév','mars','avr','mai','juin','juil','août','sept','oct','nov','déc'],
+                    weekdays: ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],
+                    shortWeekdays: ['dim','lun','mar','mer','jeu','ven','sam'],
+                    rangeSelectorFrom: 'Du',
+                    rangeSelectorTo: 'au',
+                }
+            });
+            Highcharts.stockChart('charts', {
+                chart: { type: 'spline' },
+                title: { text: null },
+                subtitle: { text: null },
+                credits: {
+                    enabled: false
+                },
+                rangeSelector: {
+                    selected: 4,
+                    buttons: [
+                        {type: 'month', count: 1, text: '1 mois'},
+                        {type: 'month', count: 3, text: '3 mois'},
+                        {type: 'month', count: 6, text: '6 mois'},
+                        {type: 'year', count: 1, text: '1 an'},
+                        {type: 'all', text: 'Tout'}
+                    ],
+                    buttonTheme: {
+                        width: 50,
                     },
-                    tooltips: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                return tooltipItem.yLabel;
+                    buttonSpacing: 5,
+                    inputDateFormat: '%e %b %Y',
+                    inputEditDateFormat: '%d-%m-%Y'
+                },
+                legend: {
+                    enabled: true,
+                    layout: "horizontal",
+                    verticalAlign: "bottom",
+                    align: "center"
+                },
+                xAxis: {
+                    title: { text: null/*'Date'*/ },
+                    type: 'datetime',
+                    dateTimeLabelFormats: {
+                        month: '%b %Y'/*'%e %b %Y'*/,
+                        year: '%b'
+                    }
+                },
+                yAxis: {
+                    title: { text: null/*'Score'*/ },
+                    min: 0,
+                    max: 100,
+                    plotLines: [{
+                        value: 70,
+                        color: '#66cc66',
+                        dashStyle: 'shortdash',
+                        width: 1,
+                        label: {
+                            text: '70 %',
+                            style: {
+                                color: '#00aa00',
+                                fontWeight: 'normal'
                             }
                         }
+                    }]
+                },
+                tooltip: {
+                    headerFormat: '<b>{series.name}</b><br>',
+                    pointFormat: '{point.x:%e %b %Y} : {point.y:.1f} %'
+                },
+                plotOptions: {
+                    spline: {
+                        marker: {
+                            enabled: true,
+                            symbol: 'circle'
+                        }
                     },
-                    responsive: true,
-                    scales: {
-                        yAxes: [{
-                            ticks: {
-                                beginAtZero: true,
-                                max: num_questions,
-                                min: 0
-                            }
-                        }]
-                    },
-                    //title: { display: false, text: 'Résultats pour "Webmaster"' },
-                    tooltips: { mode: 'index', intersect: false }
-                    //hover: { mode: 'nearest', intersect: true }
-                };
 
-            for (var index in drupalsettings_chart){
-                var value = drupalsettings_chart[index];
-
-                // active l'onglet du theme du test fini
-                if (tabId == value.id){ activeTab = index; }
-
-                // disable tabs with no data
-                if (value.num_test == 0){ disabledTabs.push(Number(index)); }
-
-                // draw line chart
-                myChart[index] = new Chart($("#chart-" + value.id), {
-                    type: (value.num_test < 2 ? 'bar' : 'line'),
-                    data: {
-                        labels: drupalsettings_chart[index].chartLabels,
-                        datasets: [{
-                            data: drupalsettings_chart[index].chartData,
-                            lineTension: 0.2,
-                            label: '',
-                            fill: false,
-                            borderColor: "#337ab7",
-                            borderWidth: 2
-                        }]
-                    },
-                    options: chartOptions
-                });
-				
-                // draw doughnut chart
-                myChartDoughnut[index] = new Chart($("#percent-chart-" + value.id), {
-                    type: 'doughnut',
-                    data: {
-                        labels: ["Bonnes réponses", "Total"],
-                        datasets: [{
-                            data: [drupalsettings_chart[index].percent, (100 - drupalsettings_chart[index].percent)],
-                            backgroundColor: ["#337ab7", "#cccccc"],
-							hoverBackgroundColor: ["#337ab7", "#cccccc"]
-                        }]
-                    },
-                    options: {
-						legend: { display: false },
-						responsive: true
-					}
-                });
-            }
-
-            $("#tabs").tabs({
-                active: activeTab,
-                disabled: disabledTabs
+                },
+                series: drupalSettings.TestD8.chart.data
             });
 
         }

@@ -4,13 +4,13 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_reponse
-    - paragraphs.paragraphs_type.paragraphs_type_questions
+    - paragraphs.paragraphs_type.ptype_question
   module:
     - options
-id: paragraph.paragraphs_type_questions.field_reponse
+id: paragraph.ptype_question.field_reponse
 field_name: field_reponse
 entity_type: paragraph
-bundle: paragraphs_type_questions
+bundle: ptype_question
 label: Réponse
 description: 'Indiquer la bonne réponse'
 required: true

@@ -63,10 +63,7 @@ class TestDrupal8QcmController extends ControllerBase {
       }
       $this->session->set('session_questions', $session_questions);
     }
-    // @todo1
-    return [];// Without this line, we have an error with drush ws (see below)
-    // LogicException: The controller must return a response (null given).
-    // Did you forget to add a return statement somewhere in your controller
+    return [];
 
   }
 
@@ -74,7 +71,7 @@ class TestDrupal8QcmController extends ControllerBase {
 		if ($this->session->get('qcm_timer')){
 			$this->session->set('qcm_timer', $this->currentTime);
 		}
-		return [];// maybe like @todo1
+		return [];
 	}
 
 }

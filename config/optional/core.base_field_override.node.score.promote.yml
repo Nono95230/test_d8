@@ -4,6 +4,8 @@ status: true
 dependencies:
   config:
     - node.type.score
+_core:
+  default_config_hash: KhwWw_COaZ5OQJQeIN4tjTno37nuI-RtPc4XZpTL8DA
 id: node.score.promote
 field_name: promote
 entity_type: node

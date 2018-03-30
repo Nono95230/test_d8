@@ -2,13 +2,10 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.score.field_score_date_test
     - field.field.node.score.field_score_nid
     - field.field.node.score.field_score_result
-    - field.field.node.score.field_score_uid
     - node.type.score
   module:
-    - datetime
     - path
 id: node.score.default
 targetEntityType: node
@@ -21,12 +18,6 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_score_date_test:
-    weight: 126
-    settings: {  }
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
   field_score_nid:
     weight: 122
     settings: {  }
@@ -39,12 +30,6 @@ content:
       placeholder: ''
     third_party_settings: {  }
     type: number
-    region: content
-  field_score_uid:
-    weight: 121
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
     region: content
   langcode:
     type: language_select

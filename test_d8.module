@@ -41,27 +41,10 @@ function test_d8_page_attachments(array &$page){
   elseif ($routeName == 'view.test_drupal8.page_1') {
     $page['#attached']['library'][] = 'test_d8/library-view-list-tests-drupal8';
   }
-  elseif ($routeName == 'user.dashboard.tests' || $routeName == 'view.dashboard_test_drupal8.page_1' ) {// @todo removez this line and decomment under line
-  //elseif ($routeName == 'view.dashboard_test_drupal8.page_1' ) {
+  elseif ($routeName == 'view.dashboard_test_drupal8.page_1' ) {
     $page['#attached']['library'][] = 'test_d8/library-user-dashboard-tests-drupal8';
   }
 }
-
-/*
-function test_d8_views_pre_execute($view){
-
-  $current_path = \Drupal::service('path.current')->getPath();
-  // destroy session on tests landing page
-  if ($current_path == '/tests-drupal8'){
-    $session = \Drupal::service('user.private_tempstore')->get('test_d8');
-    $session->delete('test_d8_session');
-    $session->delete('session_questions');
-    $session->delete('questions_list');
-    $session->delete('date_start');
-    $session->delete('qcm_timer');
-  }
-
-}*/
 
 
 // send settings to JS

@@ -2,28 +2,16 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.field.node.score.field_score_date_test
     - field.field.node.score.field_score_nid
     - field.field.node.score.field_score_result
-    - field.field.node.score.field_score_uid
     - node.type.score
   module:
-    - datetime
     - user
 id: node.score.default
 targetEntityType: node
 bundle: score
 mode: default
 content:
-  field_score_date_test:
-    weight: 5
-    label: above
-    settings:
-      format_type: medium
-      timezone_override: ''
-    third_party_settings: {  }
-    type: datetime_default
-    region: content
   field_score_nid:
     weight: 1
     label: above
@@ -40,15 +28,6 @@ content:
       prefix_suffix: true
     third_party_settings: {  }
     type: number_integer
-    region: content
-  field_score_uid:
-    weight: 0
-    label: above
-    settings:
-      view_mode: default
-      link: false
-    third_party_settings: {  }
-    type: entity_reference_entity_view
     region: content
 hidden:
   langcode: true

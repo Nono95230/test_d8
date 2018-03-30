@@ -1,0 +1,31 @@
+uuid: 1b587e77-d168-43ac-b55e-15c523fcb53d
+langcode: fr
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:acde8d00-7c98-4efd-b5a2-aa6116aaf690'
+  module:
+    - block_content
+    - system
+  theme:
+    - bootstrap
+id: instructionsavanttestqcmd8
+theme: bootstrap
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:acde8d00-7c98-4efd-b5a2-aa6116aaf690'
+settings:
+  id: 'block_content:acde8d00-7c98-4efd-b5a2-aa6116aaf690'
+  label: 'Instructions avant test QCM D8'
+  provider: block_content
+  label_display: '0'
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    pages: /tests-drupal8
+    negate: false
+    context_mapping: {  }

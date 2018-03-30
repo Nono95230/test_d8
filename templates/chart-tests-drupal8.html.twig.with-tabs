@@ -1,0 +1,36 @@
+{% if data.anytest %}
+	<div id="test_d8-charts">
+{#
+		<canvas id="charts"></canvas>
+	</div>
+#}
+
+	  <div id="tabs">
+		<ul>
+	{% for id, arr in data.tabs %}
+		  <li><a href="#tabs-{{ id }}">{{ arr['name'] }} <small>({{ arr['num_test'] }})</small></a></li>
+	{% endfor %}
+		</ul>
+
+	{% for id, arr in data.tabs %}
+		<div id="tabs-{{ id }}">
+				<canvas id="chart-{{ id }}" style="width:100%;height:250px;"></canvas>
+				<div id="info">
+					<div id="average">
+						<div class="progress" title="{{ arr['percent'] }} %"><div class="progress-bar" role="progressbar" style="width:{{ arr['percent'] }}%;" aria-valuenow="{{ arr['percent'] }}" aria-valuemin="0" aria-valuemax="{{ arr['number_of_questions'] }}"></div></div>
+					</div>
+					<div id="percent">
+						<canvas id="percent-chart-{{ id }}" style="width:100px;height:100px;"></canvas>
+						<p>{{ arr['percent'] }}&nbsp;% de bonnes réponses</p>
+					</div>
+					<div id="ratio">
+		{% set num_total_question = arr['number_of_questions'] * arr['num_test'] %}
+						<p>Ratio total&nbsp;: {{ arr['score_sum'] }} / {{ num_total_question }}</p>
+					</div>
+				</div>
+			</div>
+	{% endfor %}
+	  </div>
+	</div>
+
+{% endif %}

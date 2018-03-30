@@ -21,63 +21,46 @@ class ChartBlock extends BlockBase {
     $themes = $this->getThemes();
 
     $config = \Drupal::config('test_d8.settings');
-    $number_of_questions = $config->get('number_of_questions');
+    $numberOfQuestions = $config->get('number_of_questions');
 
     $build['#theme'] = 'chart_tests_drupal8';
 
-    $data = [];
-    $tabs = [];
-  $is_there_any_test = false;
-    foreach ($themes as $theme_id => $theme_name){
-      $scores = $this->getScoresByTheme($theme_id);
-      $numTest = count($scores);
-    if ($numTest){
-      $is_there_any_test = true;
-    }
+    $jsData = [];
+    $isThereAnyTest = false;
+    $chartColors = ['#c00', '#ca0', '#0c0', '#2352a3'];
+    $i = 0;
+    foreach ($themes as $themeId => $themeName){
+      $scores = $this->getScoresByTheme($themeId);
 
-      // tableau de données transmises au JS
-      $chartLabels = [];
-      $chartData = [];
-    $scoreSum = 0;
-      foreach ($scores as $obj){
-        $chartLabels[] = [date('j M Y', $obj->date_start), date('H\hi', $obj->date_start)];
-        $chartData[] = (int)$obj->score;
-    $scoreSum += (int)$obj->score;
+      if (!empty($scores)){
+        $isThereAnyTest = true;
+
+        $dataPoints = [];
+        foreach ($scores as $value){
+          // convert score as percent
+          $score = $value['score'] / $numberOfQuestions * 100;
+          // date (* 1000 pour retourner des microsecondes, comme la méthode js Date.UTC(year, month, day))
+          $date = strtotime($value['date_test']) * 1000;
+          $dataPoints[] = [$date, $score];
+        }
+
+        $object = new \stdClass;
+        $object->name = $themeName;
+        $object->data = $dataPoints;
+        $object->color = $chartColors[$i];
+        ++$i;
+
+        $jsData[] = $object;
       }
-    
-      $percent = ($numTest < 1 ? 0 : intval($scoreSum / ($numTest * $number_of_questions) * 100));
-    
-      $data[] = [
-        'id' => $theme_id,
-        'name' => $theme_name,
-        'num_test' => $numTest,
-        'chartLabels' => $chartLabels,
-        'chartData' => $chartData,
-        'percent' => $percent,
-      ];
-
-      // données transmises à twig (jquery ui tabs)
-      $tabs[$theme_id] = [
-        'name' => $theme_name,
-        'num_test' => $numTest,
-        'number_of_questions' => $number_of_questions,
-        'score_sum' => $scoreSum,
-        'average' => ($numTest < 1 ? 0 : ($scoreSum / $numTest)),
-        'percent' => $percent,
-      ];
-      
     }
 
-    $build['#attached']['drupalSettings']['TestD8']['chart']['data'] = $data;
-    $build['#data']['anytest'] = $is_there_any_test;
-    $build['#data']['tabs'] = $tabs;
-
-    $build['#attached']['drupalSettings']['TestD8']['chart']['number_of_questions'] = $number_of_questions;
+    $build['#attached']['drupalSettings']['TestD8']['chart']['data'] = $jsData;
+    $build['#data']['anytest'] = $isThereAnyTest;
 
     return $build;
   }
 
-  public function getThemes() {
+  protected function getThemes() {
     $node = \Drupal::entityTypeManager()->getStorage('node');
     $ids = \Drupal::entityQuery('node')->condition('type', 'test')->execute();
     $allThemes = $node->loadMultiple($ids);
@@ -91,17 +74,25 @@ class ChartBlock extends BlockBase {
   }
 
   // retourne tous les tests (filtrés par thème) de l'utilisateur courant
-  public function getScoresByTheme($theme_id){
-    return \Drupal::database()->select('test_d8_test_result', 'd8')
-      ->fields('d8', ['score', 'date_start'])
+  protected function getScoresByTheme($themeId){
+    $ids = \Drupal::entityQuery('node')
+      ->condition('type','score')
       ->condition('uid', $this->getCurrentUserID())
-      ->condition('nid', $theme_id)
-      ->orderBy('date_end', 'ASC')
-      ->execute()
-      ->fetchAll();
+      ->condition('field_score_nid', $themeId)
+      ->sort('created', 'ASC')
+      ->execute();
+    $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadMultiple($ids);
+    $result = [];
+    foreach ($nodes as $id => $obj){
+      $result[] = [
+        'score' => $obj->get('field_score_result')->getValue()[0]['value'],
+        'date_test' => $obj->get('created')->getValue()[0]['value'],
+      ];
+    }
+    return $result;
   }
 
-  public function getCurrentUserID() {
+  protected function getCurrentUserID() {
     return \Drupal::currentUser()->id();
   }
 

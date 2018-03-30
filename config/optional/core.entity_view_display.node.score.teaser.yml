@@ -3,10 +3,8 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
-    - field.field.node.score.field_score_date_test
     - field.field.node.score.field_score_nid
     - field.field.node.score.field_score_result
-    - field.field.node.score.field_score_uid
     - node.type.score
   module:
     - user
@@ -19,8 +17,6 @@ content:
     weight: 100
     region: content
 hidden:
-  field_score_date_test: true
   field_score_nid: true
   field_score_result: true
-  field_score_uid: true
   langcode: true

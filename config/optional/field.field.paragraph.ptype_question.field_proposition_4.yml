@@ -4,13 +4,13 @@ status: true
 dependencies:
   config:
     - field.storage.paragraph.field_proposition_4
-    - paragraphs.paragraphs_type.paragraphs_type_questions
+    - paragraphs.paragraphs_type.ptype_question
   module:
     - text
-id: paragraph.paragraphs_type_questions.field_proposition_4
+id: paragraph.ptype_question.field_proposition_4
 field_name: field_proposition_4
 entity_type: paragraph
-bundle: paragraphs_type_questions
+bundle: ptype_question
 label: 'Proposition 4'
 description: 'Saisir la quatrième proposition qui servira à répondre à la question ou non'
 required: true

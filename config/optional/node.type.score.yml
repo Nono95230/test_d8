@@ -9,7 +9,7 @@ third_party_settings:
     parent: ''
 name: Score
 type: score
-description: 'Utiliser le type de contenu Score pour enregistrer le résultat d''un utilisateur Drupalien à son Test Drupal 8'
+description: 'Utilisez le Score pour enregistrer le résultat d''un utilisateur Drupalien à son Test Drupal 8'
 help: ''
 new_revision: true
 preview_mode: 1

@@ -1,9 +1,0 @@
-uuid: 0fefbb5a-07ca-4ad8-b383-e16d66a08bc7
-langcode: fr
-status: true
-dependencies: {  }
-id: paragraphs_type_questions
-label: Question
-icon_uuid: null
-description: "Ce paragraph type sert à paramètrer les champs servant à l'insertion d'une question pour un test"
-behavior_plugins: {  }

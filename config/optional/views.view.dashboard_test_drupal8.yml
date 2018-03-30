@@ -3,20 +3,18 @@ langcode: fr
 status: true
 dependencies:
   config:
-    - field.storage.node.field_score_date_test
     - field.storage.node.field_score_nid
     - field.storage.node.field_score_result
     - node.type.score
   module:
-    - datetime
     - node
     - user
 _core:
-  default_config_hash: GwFfQb2qGxVCMFN8l7S-8fPJoKIpqT7jvtcA5_DsqwU
+  default_config_hash: MncoM_cnE16Xf1HjoDbw6TJde6g_kmmqWwJUX47Avpc
 id: dashboard_test_drupal8
 label: 'Dashboard Test Drupal8'
 module: views
-description: ''
+description: 'Page listant les tests effectués par un utilisateur'
 tag: ''
 base_table: node_field_data
 base_field: nid
@@ -189,14 +187,14 @@ display:
           separator: ', '
           field_api_classes: false
           plugin_id: field
-        field_score_date_test:
-          id: field_score_date_test
-          table: node__field_score_date_test
-          field: field_score_date_test
+        created:
+          id: created
+          table: node_field_data
+          field: created
           relationship: none
           group_type: group
           admin_label: ''
-          label: 'Date de Passage'
+          label: 'Date de passage'
           exclude: false
           alter:
             alter_text: false
@@ -238,10 +236,11 @@ display:
           empty_zero: false
           hide_alter_empty: true
           click_sort_column: value
-          type: datetime_default
+          type: timestamp
           settings:
-            timezone_override: ''
-            format_type: format_date_coding_game
+            date_format: format_date_coding_game
+            custom_date_format: ''
+            timezone: ''
           group_column: value
           group_columns: {  }
           group_rows: true
@@ -252,6 +251,8 @@ display:
           multi_type: separator
           separator: ', '
           field_api_classes: false
+          entity_type: node
+          entity_field: created
           plugin_id: field
         field_score_result:
           id: field_score_result
@@ -366,10 +367,10 @@ display:
           group_type: group
           admin_label: ''
           empty: true
-          tokenize: false
+          tokenize: true
           content:
-            value: '<p>Aucun test pour le moment. <br>C''est l''occasion de <a href=''/tests-drupal8''>passer votre premier test</a> !<p>'
-            format: full_html
+            value: "<p>Aucun test pour le moment.<br />\nC'est l'occasion de <a href='/tests-drupal8'>passer votre premier test</a> !</p>"
+            format: basic_html
           plugin_id: text
       relationships: {  }
       arguments:
@@ -420,7 +421,6 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_score_date_test'
         - 'config:field.storage.node.field_score_nid'
         - 'config:field.storage.node.field_score_result'
   page_1:
@@ -442,6 +442,5 @@ display:
         - 'user.node_grants:view'
         - user.permissions
       tags:
-        - 'config:field.storage.node.field_score_date_test'
         - 'config:field.storage.node.field_score_nid'
         - 'config:field.storage.node.field_score_result'

@@ -4,7 +4,7 @@ dependencies:
   config:
     - field.storage.node.field_questions
     - node.type.test
-    - paragraphs.paragraphs_type.paragraphs_type_questions
+    - paragraphs.paragraphs_type.ptype_question
   module:
     - entity_reference_revisions
 id: node.test.field_questions
@@ -22,9 +22,9 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      paragraphs_type_questions: paragraphs_type_questions
+      ptype_question: ptype_question
     target_bundles_drag_drop:
-      paragraphs_type_questions:
+      ptype_question:
         enabled: true
         weight: 2
 field_type: entity_reference_revisions

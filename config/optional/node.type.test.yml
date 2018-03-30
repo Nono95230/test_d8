@@ -1,4 +1,3 @@
-uuid: f7653bad-3b4f-4b6c-b396-5c0df73dc9b4
 langcode: fr
 status: true
 dependencies:
@@ -8,8 +7,6 @@ third_party_settings:
   menu_ui:
     available_menus: {  }
     parent: ''
-_core:
-  default_config_hash: DiC0Ji5LL9PY4wsVHiUxtCRbPtN3VTmzGSs_4h_zejA
 name: 'Test D8'
 type: test
 description: 'Ce type de contenu permet de créer un test sous forme de QCM'

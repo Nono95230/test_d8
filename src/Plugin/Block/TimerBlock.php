@@ -29,7 +29,6 @@ class TimerBlock extends BlockBase {
     if (!$session->get('session_questions')){
       $build['#attached']['drupalSettings']['TestD8']['countdown'] = $testD8Time;
     } else {
-      //$session_questions = $session->get('session_questions');
       $date_start = $session->get('date_start');
       $timer = $session->get('qcm_timer');
 

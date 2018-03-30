@@ -3,7 +3,7 @@ langcode: fr
 status: true
 dependencies: {  }
 _core:
-  default_config_hash: 4y3bAuJ4u-QnMG2GGh5ciFzcqhveMUucvm0-aQwnWqY
+  default_config_hash: fQQWMQv6-4V5Y5xF4HClK3b8SsNgCaV1mIthXjW5xCY
 name: Thème
 vid: d8_themes
 description: 'Utilisez le thème pour regrouper les tests/certifications par thème.'

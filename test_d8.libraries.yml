@@ -1,3 +1,4 @@
+# landing page des tests
 library-view-list-tests-drupal8:
   version: VERSION
   css:
@@ -9,19 +10,7 @@ library-view-list-tests-drupal8:
     - core/jquery
     - core/jquery.once
 
-library-user-dashboard-tests-drupal8:
-  version: VERSION
-  css:
-    theme:
-      css/user-dashboard-tests-drupal8.css: {}
-  js:
-    js/chart.min.js: { minified: true }
-    js/user-dashboard-tests-drupal8.js: {}
-  dependencies:
-    - core/jquery
-    - core/jquery.ui.tabs
-    - core/drupalSettings
-
+# page des tests
 library-qcm-test-drupal8:
   version: VERSION
   css:
@@ -35,6 +24,19 @@ library-qcm-test-drupal8:
     - core/jquery
     - core/jquery.once
     - core/drupal
+    - core/drupalSettings
+
+# page "mes tests"
+library-user-dashboard-tests-drupal8:
+  version: VERSION
+  css:
+    theme:
+      css/user-dashboard-highcharts.css: {}
+  js:
+    https://code.highcharts.com/stock/highstock.js: { minified: true, external: true }
+    js/user-dashboard-tests-drupal8.js: {}
+  dependencies:
+    - core/jquery
     - core/drupalSettings
 
 
