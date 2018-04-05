@@ -3,6 +3,7 @@
 namespace Drupal\test_d8\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use GuzzleHttp\Cookie\SetCookie;
 
 /**
  * Provides a chart block.
@@ -27,7 +28,7 @@ class ChartBlock extends BlockBase {
 
     $jsData = [];
     $isThereAnyTest = false;
-    $chartColors = ['#c00', '#ca0', '#0c0', '#2352a3'];
+    $chartColors = ['#008020', '#907B00', '#AC0042', '#5A0089'];
     $i = 0;
     foreach ($themes as $themeId => $themeName){
       $scores = $this->getScoresByTheme($themeId);
@@ -40,7 +41,7 @@ class ChartBlock extends BlockBase {
           // convert score as percent
           $score = $value['score'] / $numberOfQuestions * 100;
           // date (* 1000 pour retourner des microsecondes, comme la méthode js Date.UTC(year, month, day))
-          $date = strtotime($value['date_test']) * 1000;
+          $date = $value['date_test'] * 1000;
           $dataPoints[] = [$date, $score];
         }
 
@@ -56,6 +57,13 @@ class ChartBlock extends BlockBase {
 
     $build['#attached']['drupalSettings']['TestD8']['chart']['data'] = $jsData;
     $build['#data']['anytest'] = $isThereAnyTest;
+
+$cookie = new SetCookie([
+  'Name' => 'cookie_name',
+  'Value' => 'cookie_value',
+  'Domain' => \Drupal::request()->getHost(),
+]);
+kint($cookie);
 
     return $build;
   }

@@ -38,7 +38,7 @@ function test_d8_page_attachments(array &$page){
   if ($routeName == 'test_drupal8.qcm') {
     $page['#attached']['library'][] = 'test_d8/library-qcm-test-drupal8';
   }
-  elseif ($routeName == 'view.test_drupal8.page_1') {
+  elseif ($routeName == 'view.list_tests_drupal8.page_1') {
     $page['#attached']['library'][] = 'test_d8/library-view-list-tests-drupal8';
   }
   elseif ($routeName == 'view.dashboard_test_drupal8.page_1' ) {

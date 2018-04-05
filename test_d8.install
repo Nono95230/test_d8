@@ -76,7 +76,7 @@ function test_d8_install(){
 
 
   //On vérifie que le type de contenu TEST existe bien
-  if ( ($contentTypeTest = NodeType::load('test') ) != null ) {
+  if (NodeType::load('test') != null){
 
     // On récupère la liste des champs du type de contenu TEST
     $fieldDefinitions = \Drupal::entityManager()->getFieldDefinitions('node', 'test');

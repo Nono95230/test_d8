@@ -40,6 +40,14 @@
                 e.preventDefault();
                 change_question('next');
             });
+            $(document).keyup(function(e){
+                if (e.which === 37) {
+                  change_question('prev');
+                }
+                if (e.which === 39) {
+                  change_question('next');
+                }
+            });
 
             $("#test_d8-submit").once('test_d8-submit').on("click", function(e){
                 var diff = (questionIds.length - $("input:radio:checked").length);

@@ -37,6 +37,28 @@
                     inputDateFormat: '%e %b %Y',
                     inputEditDateFormat: '%d-%m-%Y'
                 },
+                navigator: {
+                    enabled: true,
+                    height: 20,
+                    maskFill: "rgba(127,127,127,0.5)", // does not work, see why
+                    maskInside: false, // does not work, see why
+                    series: {
+                        color: "rgba(0, 0, 0, 0)"
+                    },
+                    xAxis: {
+                        allowDecimals: false,
+                            dateTimeLabelFormats: {
+                            millisecond: '%H:%M',
+                            second: '%H:%M',
+                            minute: '%H:%M',
+                            hour: '%H:%M',
+                            day: '%e %b %Y',
+                            week: '%b %Y',
+                            month: '%b %Y',
+                            year: '%Y'
+                        }
+                    }
+                },
                 legend: {
                     enabled: true,
                     layout: "horizontal",
@@ -44,11 +66,17 @@
                     align: "center"
                 },
                 xAxis: {
+                    minRange: 3600000,
                     title: { text: null/*'Date'*/ },
                     type: 'datetime',
                     dateTimeLabelFormats: {
-                        month: '%b %Y'/*'%e %b %Y'*/,
-                        year: '%b'
+                        second: '%e %b %Y<br> %H:%M',
+                        minute: '%e %b %Y<br> %H:%M',
+                        hour: '%e %b %Y<br> %H:%M',
+                        day: '%e %b %Y',
+                        week: '%b %Y',
+                        month: '%b %Y',
+                        year: '%Y'
                     }
                 },
                 yAxis: {
@@ -57,13 +85,14 @@
                     max: 100,
                     plotLines: [{
                         value: 70,
-                        color: '#66cc66',
+                        color: '#0069AC',
                         dashStyle: 'shortdash',
                         width: 1,
+                        zIndex: 1, // à vérifier (doit passer au dessus des lignes grises, mais en dessous des scores)
                         label: {
                             text: '70 %',
                             style: {
-                                color: '#00aa00',
+                                color: '#004083',
                                 fontWeight: 'normal'
                             }
                         }
@@ -77,7 +106,9 @@
                     spline: {
                         marker: {
                             enabled: true,
-                            symbol: 'circle'
+                            symbol: 'circle',
+                            lineWidth: 2,
+                            radius: 5
                         }
                     },
 
