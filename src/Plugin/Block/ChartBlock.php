@@ -58,13 +58,6 @@ class ChartBlock extends BlockBase {
     $build['#attached']['drupalSettings']['TestD8']['chart']['data'] = $jsData;
     $build['#data']['anytest'] = $isThereAnyTest;
 
-$cookie = new SetCookie([
-  'Name' => 'cookie_name',
-  'Value' => 'cookie_value',
-  'Domain' => \Drupal::request()->getHost(),
-]);
-kint($cookie);
-
     return $build;
   }
 

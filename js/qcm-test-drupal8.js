@@ -83,11 +83,14 @@
             let timerId = setTimeout(function request(){
                 $.ajax({
                     type: "POST",
-                    url: '/test-drupal8/update-timer',
+                    url: '/test-drupal8/update-timer'/*,
                     error: function(jqXHR, textStatus, errorThrown){
                         console.log(textStatus + ": " + errorThrown);
                         delay += 1000;
-                    }
+                    },
+                    success: function(data){
+                        console.log(data);
+                    }*/
                 }).fail(function(jqXHR, textStatus){
 					console.log("fail:" + textStatus);
 					delay += 1000;

@@ -37,31 +37,32 @@ class TestDrupal8QcmForm extends FormBase {
 
     public function buildForm(array $form, FormStateInterface $form_state, NodeInterface $node = null){
         $nodeId = $node->id();
-        $sessionTestD8 = \Drupal::service('user.private_tempstore')->get('test_d8');
 
-        // isset Test D8 Session
-        if ($sessionTestD8->get('test_d8_session') == $nodeId){
-            // get the 40 questions in the session
-            $questionsQcmList = $sessionTestD8->get('questions_list');
+        $cookie = isset($_COOKIE['testD8']) ? unserialize($_COOKIE['testD8']) : [];
+
+        if (isset($cookie['nid']) && $cookie['nid'] == $nodeId){
+            // get the 40 questions, set'em in cookie
+            $questionsQcmList = $cookie['questions_list'];
         } else {
             // get all questions id
             $questionIds = $this->getAllQuestionsId($node);
             // load all questions
             $questions = Paragraph::loadMultiple($questionIds);
-            // get only 40 questions randomly formated
+            // get 40 random questions
             $questionsQcmList = $this->getCurrentQcmQuestions($questions);
             // storing q/a
             $sessionQuestionsData = $this->getSessionQuestionsData($questionsQcmList);
 
             $time = \Drupal::time()->getCurrentTime();
-            // Set the session Test D8
-            $this->setSessionTestD8([
-                'time'                  => $time,
-                'nodeId'                => $nodeId,
-                'sessionTestD8'         => $sessionTestD8,
-                'questionsQcmList'      => $questionsQcmList,
-                'sessionQuestionsData'  => $sessionQuestionsData,
-            ]);
+            // Set the cookie Test D8
+            $cookie = [
+                'nid' => $nodeId, # thème du test
+                'questions_list' => $questionsQcmList, # liste des questions random
+                'session_questions' => $sessionQuestionsData, # réponses données
+                'date_start' => $time, # date de début du test
+                'qcm_timer' => $time, # timer mis à jour toutes les X secondes
+            ];
+            setcookie('testD8', serialize($cookie), $time+3600*24*365);
         }
 
         // nav mini-cercles
@@ -105,7 +106,20 @@ class TestDrupal8QcmForm extends FormBase {
                 ],
                 '#prefix' => '<div class="test_d8-question'. ($i > 1 ? ' test_d8-hidden' : '') .'" id="test_d8-question'.$data['id'].'">',
                 '#suffix' =>'</div>',
+                //'#default_value' => 'p3',
             ];
+            // set previously answered question
+            if (isset($cookie['session_questions'])){
+                foreach($cookie['session_questions'] as $key => $value){
+                    if (($value['id'] == $data['id']) && ($value['answer_num'] !== null)){
+                        //kint($value['id']);
+                        //kint($value);
+                        //kint($value['answer_num']);
+                        $form['propositions'.$data['id']]['#default_value'] = 'p'.$value['answer_num'];
+                        break;
+                    }
+                }
+            }
         }
 
         // nav
@@ -141,7 +155,7 @@ class TestDrupal8QcmForm extends FormBase {
         return $form;
     }
 
-    public function getAllQuestionsId($node){
+    protected function getAllQuestionsId($node){
         $field_questions = $node->get('field_questions')->getValue();
         $ids = [];
         foreach ($field_questions as $d){
@@ -150,7 +164,7 @@ class TestDrupal8QcmForm extends FormBase {
         return $ids;
     }
 
-    public function getCurrentQcmQuestions($questions){
+    protected function getCurrentQcmQuestions($questions){
         $tmpList = [];
         foreach ($questions as $id => $para){
             $tmpList[] = [
@@ -169,11 +183,11 @@ class TestDrupal8QcmForm extends FormBase {
         return $questionsList;
     }
 
-    public function paragraphGetValue($object, $fieldname){
+    protected function paragraphGetValue($object, $fieldname){
         return  $object->get($fieldname)->getValue()[0]['value'];
     }
 
-    public function getSessionQuestionsData($questionsList){
+    protected function getSessionQuestionsData($questionsList){
         $sessionQuestions = [];
         foreach ($questionsList as $d){
             $sessionQuestions[] = [
@@ -186,22 +200,12 @@ class TestDrupal8QcmForm extends FormBase {
         return $sessionQuestions;
     }
 
-    public function setSessionTestD8($arg){
-        $session = $arg['sessionTestD8'];
-        $session->set('test_d8_session', $arg['nodeId']);
-        $session->set('session_questions', $arg['sessionQuestionsData']);
-        $session->set('questions_list', $arg['questionsQcmList']);
-        $session->set('date_start', $arg['time']);
-        $session->set('qcm_timer', $arg['time']);
-        return $session;
-    }
-
     public function validateForm(array &$form, FormStateInterface $form_state){}
 
     public function submitForm(array &$form, FormStateInterface $form_state){
         $formData           = $form_state->getValues();
-        $session            = \Drupal::service('user.private_tempstore')->get('test_d8');
-        $sessionQuestions   = $session->get('session_questions');
+        $cookie             = unserialize($_COOKIE['testD8']);
+        $sessionQuestions   = $cookie['session_questions'];
         $uid                = \Drupal::currentUser()->id();
         $node               = \Drupal::routeMatch()->getParameter('node');
         $nid                = $node->id();
@@ -211,14 +215,15 @@ class TestDrupal8QcmForm extends FormBase {
 
         // DB insertion
         $this->setData([
-            'uid'               => $uid,
-            'nid'               => $nid,
-            'certifTitle'       => $certificationTitle,
-            'scoreResult'       => $scoreResult
+            'uid'         => $uid,
+            'nid'         => $nid,
+            'certifTitle' => $certificationTitle,
+            'scoreResult' => $scoreResult
         ]);
 
-        // Destroy session
-        $this->deleteSessionTestDrupal8($session);
+        // Destroy cookie
+        unset($_COOKIE['testD8']);
+        setcookie('testD8', '', time()-86400);
 
         // Display message
         $this->getScoreMessage($scoreResult, $certificationTitle);
@@ -269,19 +274,10 @@ class TestDrupal8QcmForm extends FormBase {
         return array($key => $value);
     }
 
-    protected function deleteSessionTestDrupal8($session){
-        $session->delete('test_d8_session');
-        $session->delete('session_questions');
-        $session->delete('questions_list');
-        $session->delete('date_start');
-        $session->delete('qcm_timer');
-        return $session;
-    }
-
     protected function getScoreMessage($scoreResult, $certificationTitle){
         $messages = array(
             'error' => $this->t('Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong><br>'.
-                                'Continuez à vous entrainer jusqu\'à obtenir un score de @score/@nbQuestions !',
+                                'Continuez à vous entrainer !',
                                     array(
                                         '@score'        => $scoreResult,
                                         '@nbQuestions'  => $this->numberQuestions
@@ -295,7 +291,7 @@ class TestDrupal8QcmForm extends FormBase {
                                     )
                             ),
             'status' => $this->t('Test terminé.<br>Votre score est de <strong>@score/@nbQuestions</strong><br>'.
-                                'Félicitations !<br>En condition réelle, vous auriez obtenu votre certification @certifTitle',
+                                'Félicitations ! En condition réelle, vous auriez obtenu votre certification @certifTitle',
                                     array(
                                         '@score'       => $scoreResult,
                                         '@nbQuestions' => $this->numberQuestions,
@@ -313,7 +309,7 @@ class TestDrupal8QcmForm extends FormBase {
         }
         $message = $messages[$status];
 
-        return \Drupal::messenger()->addMessage($message, $status);
+        return \Drupal::messenger()->addMessage($message, $status, true);
     }
 
 }
