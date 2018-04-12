@@ -1,28 +1,26 @@
-uuid: b141415c-4786-42fc-a47a-c69c67eea3d9
+uuid: 05e115b9-2892-4170-ad96-014a08138f0f
 langcode: fr
 status: true
 dependencies:
   module:
-    - system
+    - route_condition
     - test_d8
   theme:
-    - bootstrap
-_core:
-  default_config_hash: VWKrBHRYON02R7LVyp13Ab7-X54s8a3yrTsHc-Mbx0U
+    - bootstrap_child
 id: charttestsdrupal8
-theme: bootstrap
+theme: bootstrap_child
 region: content
-weight: -7
+weight: 0
 provider: null
 plugin: chart_tests_drupal8
 settings:
   id: chart_tests_drupal8
-  label: 'Chart Tests Drupal 8'
+  label: 'Résultats des tests'
   provider: test_d8
-  label_display: '0'
+  label_display: visible
 visibility:
-  request_path:
-    id: request_path
-    pages: '/user/*/dashboard/tests-drupal8'
+  route:
+    id: route
+    routes: entity.user.canonical
     negate: false
     context_mapping: {  }

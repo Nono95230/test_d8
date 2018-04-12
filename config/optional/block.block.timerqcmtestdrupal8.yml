@@ -1,18 +1,16 @@
-uuid: 7d66cc03-1ca3-4d08-896b-b57aea1477e9
+uuid: 84c1d8a6-71f5-4762-b0dc-45898d365709
 langcode: fr
 status: true
 dependencies:
   module:
-    - system
+    - route_condition
     - test_d8
   theme:
-    - bootstrap
-_core:
-  default_config_hash: HaJyoqmPKC5vr3OstLHBaVqWj44xcrRm0qji8CVPpDU
+    - bootstrap_child
 id: timerqcmtestdrupal8
-theme: bootstrap
+theme: bootstrap_child
 region: content
-weight: -6
+weight: -2
 provider: null
 plugin: timer_qcm_test_drupal8
 settings:
@@ -21,8 +19,8 @@ settings:
   provider: test_d8
   label_display: '0'
 visibility:
-  request_path:
-    id: request_path
-    pages: '*/test-drupal8/*'
+  route:
+    id: route
+    routes: test_drupal8.qcm
     negate: false
     context_mapping: {  }

@@ -1,6 +1,0 @@
-user.dashboard.tests.task:
-  title: 'Mes tests'
-  route_name: view.dashboard_test_drupal8.page_1
-  base_route: entity.user.canonical
-  weight: 20
-

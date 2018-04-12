@@ -1,6 +1,8 @@
 <?php
 
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\editor\Entity\Editor;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_help().
@@ -32,21 +34,29 @@ function test_d8_theme($existing, $type, $theme, $path){
   ];
 }
 
+/**
+ * Implements hook_page_attachments().
+ */
 function test_d8_page_attachments(array &$page){
   $routeName = \Drupal::routeMatch()->getRouteName();
-
+  //kint($routeName);die();
   if ($routeName == 'test_drupal8.qcm') {
     $page['#attached']['library'][] = 'test_d8/library-qcm-test-drupal8';
   }
-  elseif ($routeName == 'view.list_tests_drupal8.page_1') {
+  elseif ($routeName == 'view.tests_drupal_8.page_1') {
     $page['#attached']['library'][] = 'test_d8/library-view-list-tests-drupal8';
   }
-  elseif ($routeName == 'view.dashboard_test_drupal8.page_1' ) {
+  elseif ($routeName == 'view.tests_drupal_8.page_2') {
+    $page['#attached']['library'][] = 'test_d8/library-view-instructions-tests-drupal8';
+  }
+  elseif ($routeName == 'entity.user.canonical' ) {
     $page['#attached']['library'][] = 'test_d8/library-user-dashboard-tests-drupal8';
   }
 }
 
-
+/**
+ * Implements template_preprocess_html().
+ */
 // send settings to JS
 function test_d8_preprocess_html(&$variables) {
   $settings = \Drupal::config('test_d8.settings');
@@ -55,4 +65,13 @@ function test_d8_preprocess_html(&$variables) {
 
   $variables['#attached']['drupalSettings']['TestD8']['time_to_complete_test'] = $time_to_complete_test;
   $variables['#attached']['drupalSettings']['TestD8']['number_of_questions'] = $number_of_questions;
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function test_d8_form_alter(&$form, FormStateInterface $form_state, $form_id){
+  if ($form_id == 'views_ui_config_item_form' && !empty($form['options']['content'])) {
+    $form['options']['content']['#editor'] = TRUE;
+  }
 }

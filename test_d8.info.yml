@@ -3,6 +3,8 @@ description: 'Drupal certification training'
 package: Custom
 dependencies:
   - paragraphs (>=8.x-1.2)
+  - codesnippet (>=8.x-1.6)
+  - route_condition (>=1.0-alpha)
 type: module
 version: VERSION
 core: '8.x'

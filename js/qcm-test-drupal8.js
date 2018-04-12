@@ -4,7 +4,8 @@
         attach: function (context, settings) {
 
             // set properties
-            var countDownEnd = false;
+            var numAnsweredQuestions = [];
+            //var countDownEnd = false;
 
             // get question IDs
             var questionIds = new Array();
@@ -22,6 +23,7 @@
                 var qid = questionIds[i];
                 if ($("input[name='propositions"+ qid +"']").is(':checked')){
                     circle_color(qid);
+                    numAnsweredQuestions[qid] = 1;
                 }
             }
 
@@ -49,20 +51,29 @@
                 }
             });
 
-            $("#test_d8-submit").once('test_d8-submit').on("click", function(e){
+            /*$("#test_d8-submit").once('test_d8-submit').on("click", function(e){
                 var diff = (questionIds.length - $("input:radio:checked").length);
                 if (diff && !countDownEnd){
                     var plural = (diff > 1 ? "s" : "");
                     return confirm("Vous n'avez pas répondu à " + diff + " question" + plural + ".\n" +
                         "Êtes-vous sûr(e) de vouloir valider le test ?");
                 }
-            });
+            });*/
+
+            function enableSubmitButton(){
+                if (numAnsweredQuestions.filter(Number).length == questionIds.length){
+                    $("#test_d8-submit").prop("disabled", false);
+                }
+            }
+            enableSubmitButton();
 
             // click radio button: apply color to circle + update session
             $("input[name^=propositions]").once('input-propositions').on("click", function(){
                 var qid = $(this).attr("name").replace("propositions", "");
                 circle_color(qid);
                 update_session(qid);
+                numAnsweredQuestions[qid] = 1;
+                enableSubmitButton();
             });
 
             function circle_color(qid){
@@ -78,21 +89,18 @@
                 });
             }
 
-            // update timer in DB
-            let delay = 2000;
-            let timerId = setTimeout(function request(){
+            // update timer value in cookie
+            var delay = 2000;
+            var timerId = setTimeout(function request(){
                 $.ajax({
                     type: "POST",
-                    url: '/test-drupal8/update-timer'/*,
-                    error: function(jqXHR, textStatus, errorThrown){
-                        console.log(textStatus + ": " + errorThrown);
-                        delay += 1000;
-                    },
+                    url: '/test-drupal8/update-timer',
+                    data: {timeLeft: window.timeLeft},
                     success: function(data){
-                        console.log(data);
-                    }*/
+                        console.log('ok');
+                    }
                 }).fail(function(jqXHR, textStatus){
-					console.log("fail:" + textStatus);
+					console.log("failure: " + textStatus);
 					delay += 1000;
 				});
                 timerId = setTimeout(request, delay);
@@ -143,6 +151,10 @@
             $(context).find('#timer_qcm').once('timer_qcm').countdown({
                 timestamp: (drupalSettings.TestD8.countdown * 1000),
                 callback: function (weeks, days, hours, minutes, seconds) {
+                    var timeLeft = 0;
+                    timeLeft += seconds + minutes*60 + hours*3600 + days*86400 + weeks*604800;
+                    window.timeLeft = timeLeft;
+
                     // when timer stops
                     if (
                         weeks == 0 &&
@@ -151,8 +163,8 @@
                         minutes == 0 &&
                         seconds == 0
                     ){
-                        countDownEnd = true;
-                        $("#test_d8-submit").click();
+                        //countDownEnd = true;
+                        $("#test_d8-submit").prop('disabled', false).click();
                     }
                 }
             });

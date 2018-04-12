@@ -2,8 +2,8 @@
     'use strict';
     Drupal.behaviors.jsTestD8Theme = {
         attach: function (context, settings) {
-            //$(function(){
 
+/*
                 $("a.test_d8-theme-select").once('test_d8-theme-select').on("click", function(e){
                     var theme = $(this).text();
                     return confirm("Vous êtes sur le point de débuter le test " + theme + ".\n\
@@ -12,8 +12,8 @@ Le test est soumis automatiquement la fin du compte à rebours.\n\n\
 /!\\ Pas d'annulation possible !\n\n\
 Voulez-vous continuer ?");
                 });
+*/
 
-            //});
         }
     };
 })(jQuery, Drupal, drupalSettings);

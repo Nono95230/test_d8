@@ -20,24 +20,18 @@ class TimerBlock extends BlockBase {
   public function build() {
     $config = \Drupal::config('test_d8.settings');
     $time = \Drupal::time()->getCurrentTime();
-    $testD8Time = $time + $config->get('time_to_complete_test');
-    $build = [];
-    $build['#theme'] = 'timer_qcm_test_drupal8';
+    $timeLeft = $config->get('time_to_complete_test');
 
-    // set default timer
-    $build['#attached']['drupalSettings']['TestD8']['countdown'] = $testD8Time;
-
-    // if a test has not ended (page refresh or else)
+    // override timeLeft if a test has not ended (page refresh or else)
     if (isset($_COOKIE['testD8'])){
       $cookie = unserialize($_COOKIE['testD8']);
-
-      $date_start = $cookie['date_start'];
-      $timer = $cookie['qcm_timer'];
-
-      // override default value
-      $timeLeft = $config->get('time_to_complete_test') - ($timer - $date_start);
-      $build['#attached']['drupalSettings']['TestD8']['countdown'] = $time + $timeLeft;
+      $timeLeft = $cookie['qcm_timer'];
     }
+
+    $build = [];
+    $build['#theme'] = 'timer_qcm_test_drupal8';
+    $build['#attached']['drupalSettings']['TestD8']['countdown'] = $time + $timeLeft;
+
     return $build;
   }
 

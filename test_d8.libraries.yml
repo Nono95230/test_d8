@@ -10,6 +10,13 @@ library-view-list-tests-drupal8:
     - core/jquery
     - core/jquery.once
 
+# page d'instructions des tests
+library-view-instructions-tests-drupal8:
+  version: VERSION
+  css:
+    theme:
+      css/view-instructions-tests-drupal8.css: {}
+
 # page des tests
 library-qcm-test-drupal8:
   version: VERSION
